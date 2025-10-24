@@ -1,0 +1,1139 @@
+/* New Light/Blue Theme Variables */
+:root {
+    --primary-color: #1e88e5;
+    /* Medium Blue (Main Accent) */
+    --secondary-color: #0d47a1;
+    /* Darker Blue/Navy (Navbar/Headers) */
+    --text-color: #212529;
+    /* Dark Text */
+    --card-bg: #ffffff;
+    /* White Background for Cards */
+    --highlight-bg: #42a5f5;
+    /* Lighter Highlight Blue */
+    --light-bg: #f8f9fa;
+    /* Very light gray for elements */
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #ffffff;
+    /* White Background */
+    color: var(--text-color);
+    /* Dark Text */
+}
+
+/* --- Navigation Styling (Updated for White Header Style) --- */
+.navbar-light .nav-link {
+    color: var(--text-color) !important;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar-light .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+.navbar-light .nav-link.active {
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+.display-4 {
+    font-size: 38px;
+}
+
+/* Pricing Card Styling */
+.pricing-card {
+    background-color: var(--card-bg);
+    /* White Card BG */
+    border: 1px solid #dee2e6;
+    /* Light Gray Border */
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Lighter shadow for light theme */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.pricing-card-header {
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    /* White text on Dark Blue Header */
+    padding: 1.5rem;
+    border-radius: 1rem 1rem 0 0;
+    text-align: center;
+}
+
+.highlight-card {
+    border: 2px solid var(--highlight-bg);
+    transform: scale(1.05);
+}
+
+.highlight-card .pricing-card-header {
+    background-color: var(--highlight-bg);
+    /* Bright Blue Header */
+    color: var(--text-color);
+    /* Dark text for contrast */
+    font-weight: 700;
+}
+
+/* Price display */
+.price-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    /* Medium Blue Price */
+}
+
+.highlight-card .price-display {
+    color: var(--secondary-color);
+    /* Dark Blue Price on Highlight Card */
+}
+
+/* Toggle Switch Styling (Customizing Bootstrap Switch) */
+.price-switch-container {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--light-bg);
+    /* Very light gray background */
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid #dee2e6;
+}
+
+.price-switch-container label {
+    margin: 0 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.price-switch-container input[type="checkbox"] {
+    appearance: none;
+    width: 3.5rem;
+    height: 1.5rem;
+    background-color: #e0e0e0;
+    /* Light gray track */
+    border-radius: 1rem;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.price-switch-container input[type="checkbox"]:before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 1.1rem;
+    height: 1.1rem;
+    background-color: var(--primary-color);
+    /* Medium Blue Thumb */
+    border-radius: 50%;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.price-switch-container input[type="checkbox"]:checked {
+    background-color: var(--highlight-bg);
+    /* Bright Blue track when checked */
+}
+
+.price-switch-container input[type="checkbox"]:checked:before {
+    transform: translateX(2rem);
+    background-color: var(--secondary-color);
+    /* Darker Blue Thumb when checked */
+}
+
+.btn-custom-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+.btn-custom-primary:hover {
+    background-color: var(--highlight-bg);
+    border-color: var(--highlight-bg);
+    color: var(--text-color);
+}
+
+/* Text utility classes updated for the blue theme */
+.text-primary-custom {
+    color: var(--secondary-color) !important;
+    /* Use dark blue for primary callouts */
+}
+
+.text-highlight {
+    color: var(--primary-color) !important;
+    /* Use medium blue for checkmarks/accents */
+}
+
+/* Ensure the 'Best Value' badge looks good */
+.highlight-card .badge.bg-dark {
+    background-color: var(--secondary-color) !important;
+    color: #ffffff !important;
+}
+
+.payment_box_title {
+    font-size: 18px;
+}
+
+/* --- Content View for SPA Navigation --- */
+.content-view {
+    display: none;
+    /* Hidden by default */
+    padding-top: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.content-view.active-view {
+    display: block;
+    /* Shown when active */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer styling for new 3-column layout */
+.footer-link {
+    color: #fff;
+    /* Light gray link color */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+    /* Accent color on hover */
+}
+
+.social-icon {
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    transition: color 0.2s;
+}
+
+.social-icon:hover {
+    color: var(--highlight-bg);
+}
+
+.navbar-custom {
+    background-color: var(--secondary-color);
+}
+
+
+/* .payment-card {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 10px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #d1d1d1;
+} */
+
+.payment-card {
+    background: #f9fafb;
+    border-radius: 22px;
+    padding: 9px 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #d1d1d1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.payment-card:hover {
+    background: #fff;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.payment-card i,
+.payment-card .custom-icon {
+    font-size: 18px;
+    /* margin-bottom: 10px; */
+}
+
+.payment-card span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Brand colors */
+.paypal {
+    color: #003087;
+}
+
+.stripe {
+    color: #6772e5;
+}
+
+.visa {
+    color: #1a1f71;
+}
+
+.mastercard {
+    color: #eb001b;
+}
+
+.amex {
+    color: #2e77bb;
+}
+
+.discover {
+    color: #ff6000;
+}
+
+.payoneer {
+    color: #ff6b00;
+}
+
+.googlepay {
+    color: #4285f4;
+}
+
+.applepay {
+    color: #111;
+}
+
+.footer_first_column_title {
+    color: #fff;
+}
+
+.footer_first_column_p {
+    color: #fff;
+}
+
+.footer_last_column_title {
+    color: #fff !important;
+}
+
+/* .learn_more {
+    border-color: 1px solid #bebcbc;
+} */
+
+.btn-custom-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 0;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    padding: 13px 27px;
+}
+
+.learn_more {
+    /* background-color: var(--primary-color); */
+    border-color: 1px solid #6b3636;
+    color: #000;
+    font-weight: 600;
+    border-radius: 0;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    padding: 13px 27px;
+}
+
+.register_btn {
+    border-color: var(--primary-color);
+    color: #ffffff;
+    /* font-weight: 600; */
+    border-radius: 0;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    padding: 6px 19px;
+}
+
+.pricing-card {
+    width: 100%;
+    max-width: 360px;
+    /* keeps consistent card width */
+    margin: 0 auto;
+    /* centers cards inside columns */
+}
+
+/* Slide effect for pricing card content */
+
+
+/* Slide-in effect for entire card */
+.card-slide {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.card-slide.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+
+
+@media screen and (max-width: 500px) {
+    .sign_in_register_buttons {
+        margin-bottom: 10px;
+        margin-top: 6px;
+    }
+
+    .sign_in_register_buttons .sign_in_button {
+        /* border: 1px solid black; */
+        border: 1px solid black;
+        color: #ffffff;
+        /* font-weight: 600; */
+        border-radius: 0;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        padding: 6px 19px;
+    }
+
+    .register_btn {
+        border-color: var(--primary-color);
+        color: #ffffff;
+        /* font-weight: 600; */
+        border-radius: 0;
+        transition: background-color 0.3s;
+        font-size: 14px;
+        padding: 6px 19px;
+    }
+
+    .hero_title {
+        font-size: 22px;
+    }
+
+    .lead {
+        font-size: 18px;
+        text-align: center;
+        margin-top: -7px;
+    }
+
+    .btn-custom-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: #ffffff;
+        font-weight: 600;
+        border-radius: 1.5rem;
+        transition: background-color 0.3s;
+        font-size: 12px;
+        padding: 7px 20px;
+    }
+
+    .learn_more {
+        border-color: 1px solid #6b3636;
+        /* color: #ffffff; */
+        font-weight: 600;
+        border-radius: 1.5rem;
+        transition: background-color 0.3s;
+        font-size: 12px;
+        padding: 7px 20px;
+    }
+
+    .pricing_title {
+        font-size: 28px;
+    }
+
+    .price-switch-container {
+        display: inline-flex;
+        align-items: center;
+        background-color: var(--light-bg);
+        color: var(--text-color);
+        padding: 0.5rem 0.4rem;
+        border-radius: 2rem;
+        border: 1px solid #dee2e6;
+    }
+
+}
+
+/* LEGAL SECTION */
+        .legal-section {
+            padding: 60px 0;
+            min-height: calc(100vh - 400px);
+            background-color: #f0f3f6; 
+            position: relative;
+            z-index: 1; 
+        }
+
+        /* SECTION HEADER */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #002a6a;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        /* CUSTOM TABLE CONTAINER */
+        .table-container {
+            background-color: #fff;
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            border: 1px solid #e0e0e0; 
+        }
+
+        /* CUSTOM TABLE STYLING */
+        .custom-table {
+            width: 100%;
+            margin: 0;
+            border-collapse: collapse; 
+        }
+
+        .custom-table thead th {
+            background-color: #2c3e50; /* Dark bluish-grey, similar to reference */
+            color: #ffffff;
+            font-weight: 600;
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #4a6c89; 
+            font-size: 0.95rem;
+        }
+
+        .custom-table tbody td {
+            padding: 15px 20px;
+            vertical-align: top; 
+            border-bottom: 1px solid #e0e0e0; 
+            color: #333;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .custom-table tbody tr:nth-child(even) {
+            background-color: #f7f9fc; /* Light blueish tint for even rows */
+        }
+
+        .custom-table tbody tr:nth-child(odd) {
+            background-color: #ffffff; /* White for odd rows */
+        }
+
+        .custom-table tbody tr:last-child td {
+            border-bottom: none; 
+        }
+
+        /* --- HOVER TRANSITION START --- */
+        .custom-table tbody tr {
+            /* Include transform in the transition for smooth lifting */
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #e6f0ff; /* Brighter blue background on hover */
+            cursor: pointer;
+            
+            /* Apply the lifting and shadowing effect */
+            transform: translateY(-2px); /* Moves the row 2 pixels up */
+            box-shadow: 0 5px 15px rgba(0, 50, 100, 0.15); /* Soft, blue-tinted shadow */
+        }
+        
+        /* Ensure text colors within the row also transition */
+        .custom-table tbody tr:hover .doc-info h6 {
+            color: #004ba0; 
+        }
+        
+        .custom-table tbody tr:hover .doc-info small,
+        .custom-table tbody tr:hover .col-number {
+            color: #4a6c89; 
+        }
+        /* --- HOVER TRANSITION END --- */
+
+
+        /* Document Info - for text alignment */
+        .doc-info h6 {
+            margin: 0 0 3px 0;
+            font-weight: 500;
+            color: #002a6a; 
+            font-size: 1rem;
+            transition: color 0.3s ease; 
+        }
+
+        .doc-info small {
+            color: #6c757d;
+            font-size: 0.85rem;
+            display: block; 
+            transition: color 0.3s ease; 
+        }
+        
+        /* Numbering Column */
+        .col-number {
+            font-weight: 600;
+            color: #555;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            padding: 6px 14px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            margin: 0 4px;
+        }
+
+        .btn-view {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+        .btn-view:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,123,255,0.4);
+        }
+
+        .btn-download {
+            background-color: #eff3f6; 
+            color: #495057;
+            border: 1px solid #ced4da;
+        }
+        .btn-download:hover {
+            background-color: #e0e6eb;
+            border-color: #adb5bd;
+            color: #333;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            .custom-table thead th, .custom-table tbody td {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            .btn-action {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+                margin: 2px 0;
+            }
+            .doc-info h6 {
+                font-size: 0.95rem;
+            }
+            .doc-info small {
+                font-size: 0.8rem;
+            }
+            .col-number {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ABOUT US SECTION */
+        .about-section {
+            padding: 60px 0;
+            min-height: calc(100vh - 400px);
+            background-color: #f0f3f6; 
+            position: relative;
+            z-index: 1; 
+        }
+
+        /* SECTION HEADER (General for other sections) */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #002a6a;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        /* --- INTRO CARD STYLES --- */
+        .intro-card {
+            background: linear-gradient(135deg, #002a6a, #004ba0);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .intro-card h1 {
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        /* --- REVISED 'WHO WE HELP' STYLES (Animated Boxes) --- */
+        .client-box-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 15px;
+        }
+
+        .client-box {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px 20px;
+            text-align: center;
+            width: 100%; 
+            max-width: 180px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .client-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 42, 106, 0.15);
+            border-color: #004ba0;
+        }
+
+        .client-box-icon {
+            color: #004ba0;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .client-box:hover .client-box-icon {
+            color: #002a6a;
+        }
+
+        .client-box span {
+            font-weight: 600;
+            color: #333;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 576px) {
+            .client-box {
+                width: calc(50% - 15px); 
+            }
+        }
+
+        @media (min-width: 992px) {
+            .client-box {
+                width: calc(20% - 15px); 
+            }
+        }
+
+        /* --- NEW STYLES FOR 'WHY CHOOSE US' (From your provided snippet) --- */
+        h1, h2, h3, h4, h5, h6 { /* Kept as is from your snippet */ }
+        a, a:hover, a:focus, a:active {
+            text-decoration: none;
+            outline: none;
+        }
+        
+        a, a:active, a:focus {
+            color: #333;
+            text-decoration: none;
+            transition-timing-function: ease-in-out;
+            -ms-transition-timing-function: ease-in-out;
+            -moz-transition-timing-function: ease-in-out;
+            -webkit-transition-timing-function: ease-in-out;
+            -o-transition-timing-function: ease-in-out;
+            transition-duration: .2s;
+            -ms-transition-duration: .2s;
+            -moz-transition-duration: .2s;
+            -webkit-transition-duration: .2s;
+            -o-transition-duration: .2s;
+        }
+        
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        span, a, a:hover {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .section-head {
+            margin-bottom: 60px;
+            text-align: center; /* Ensure it's centered as per your original design */
+        }
+        .section-head h4 {
+            position: relative;
+            padding:0;
+            color:#002a6a; /* Changed to your brand blue */
+            line-height: 1;
+            letter-spacing:0.3px;
+            font-size: 34px;
+            font-weight: 700;  
+            text-align:center;
+            text-transform:none;
+            margin-bottom:30px;
+        }
+        .section-head h4:before {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: #004ba0; /* Changed to your brand blue */
+            position: absolute;
+            left: 0px;
+            bottom: -10px;
+            right:0;  
+            margin:0 auto;
+        }
+        .section-head h4 span {
+            font-weight: 700;
+            padding-bottom: 5px;
+            color:#2f2f2f
+        }
+        p.service_text{
+            color:#818181 !important; /* Adjusted for better contrast */
+            font-size:16px;
+            line-height:28px;
+            text-align:center;      
+        }
+        .section-head p, p.awesome_line{
+            color:#818181;
+            font-size:16px;
+            line-height:28px;
+            text-align:center;  
+        }
+
+        .extra-text {
+            font-size:34px;
+            font-weight: 700;
+            color:#2f2f2f;
+            margin-bottom: 25px;
+            position:relative;
+            text-transform: none;
+        }
+        .extra-text::before {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: #004ba0; /* Changed to your brand blue */
+            position: absolute;
+            left: 0px;
+            bottom: -10px;
+            right: 0;
+            margin: 0 auto;
+        }
+        .extra-text span {
+            font-weight: 700;
+            color:#004ba0; /* Changed to your brand blue */
+        }
+        .item {
+            background: #fff;
+            text-align: center;
+            padding: 30px 25px;
+            -webkit-box-shadow:0 0px 25px rgba(0, 0, 0, 0.07);
+            box-shadow:0 0px 25px rgba(0, 0, 0, 0.07);
+            border-radius: 20px;
+            border:5px solid rgba(0, 0, 0, 0.07);
+            margin-bottom: 30px;
+            -webkit-transition: all .5s ease 0;
+            transition: all .5s ease 0;
+            transition: all 0.5s ease 0s;
+        }
+        .item:hover{
+            background:#004ba0; /* Changed to your brand blue */
+            box-shadow:0 8px 20px 0px rgba(0, 0, 0, 0.2);
+            -webkit-transition: all .5s ease 0;
+            transition: all .5s ease 0;
+            transition: all 0.5s ease 0s;
+        }
+        .item:hover .item, .item:hover span.icon{
+            background:#fff;
+            border-radius:10px;
+            -webkit-transition: all .5s ease 0;
+            transition: all .5s ease 0;
+            transition: all 0.5s ease 0s;
+        }
+        .item:hover h6, .item:hover p{
+            color:#fff;
+            -webkit-transition: all .5s ease 0;
+            transition: all .5s ease 0;
+            transition: all 0.5s ease 0s;
+        }
+        .item .icon {
+            font-size: 40px;
+            margin-bottom:25px;
+            color: #004ba0;    /* Changed to your brand blue */
+            width: 90px;
+            height: 90px;
+            line-height: 96px;
+            border-radius: 50px;
+        }
+        .item .feature_box_col_one{
+            background:rgba(0, 75, 160, 0.20); /* Adjusted to a lighter blue tint */
+            color:#004ba0 /* Changed to your brand blue */
+        }
+        .item .feature_box_col_two{
+            background:rgba(0, 75, 160, 0.15); /* Adjusted to a lighter blue tint */
+            color:#004ba0 /* Changed to your brand blue */
+        }
+        .item .feature_box_col_three{
+            background:rgba(0, 75, 160, 0.15); /* Adjusted to a lighter blue tint */
+            color:#004ba0 /* Changed to your brand blue */
+        }
+        .item .feature_box_col_four{
+            background:rgba(0, 75, 160, 0.15); /* Adjusted to a lighter blue tint */
+            color:#004ba0 /* Changed to your brand blue */
+        }
+        .item .feature_box_col_five{
+            background:rgba(0, 75, 160, 0.15); /* Adjusted to a lighter blue tint */
+            color:#004ba0 /* Changed to your brand blue */
+        }
+        .item .feature_box_col_six{
+            background:rgba(0, 75, 160, 0.15); /* Adjusted to a lighter blue tint */
+            color:#004ba0 /* Changed to your brand blue */
+        }
+        .item p{
+            font-size:15px;
+            line-height:26px;
+        }
+        .item h6 {
+            margin-bottom:20px;
+            color:#2f2f2f;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #002a6a 0%, #004ba0 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-section h3 {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .btn-cta {
+            background-color: white;
+            color: #002a6a;
+            padding: 12px 35px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-cta:hover {
+            background-color: #f0f3f6;
+            color: #002a6a;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+        /* --- CONTACT PAGE SPECIFIC STYLES --- */
+
+        .contact-page-wrapper {
+            min-height: calc(100vh - 80px); 
+            display: flex;
+            align-items: center; 
+            padding: 40px 0; 
+        }
+
+        /* The Main Contact Card */
+        .contact-card {
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+            border-radius: 10px;
+            overflow: hidden; 
+            width: 100%;
+        }
+
+        /* Left Side: Info Block (Dark Blue) */
+        .contact-info {
+            background-color: #002a6a; 
+            color: white;
+            padding: 50px 40px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .info-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-details p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .contact-details strong {
+            font-weight: 600;
+        }
+
+        /* Location Link Styling */
+        .contact-details .location-link {
+            color: #b0c4de;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .contact-details .location-link:hover {
+            color: #fff;
+        }
+
+        /* Phone Number Highlight */
+        .phone-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .social-icons a:hover {
+            opacity: 1;
+        }
+
+        /* Right Side: Form Block (White) */
+        .contact-form-side {
+            background-color: #ffffff;
+            padding: 50px 40px;
+            flex-grow: 1;
+        }
+        
+        .contact-form-side h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #002a6a;
+            margin-bottom: 10px;
+        }
+        
+        .contact-form-side p.lead-text {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+        
+        /* Form Styling (Accurate to reference image) */
+        .form-control {
+            border: none;
+            border-bottom: 1px solid #ced4da; 
+            border-radius: 0;
+            padding: 10px 0 8px 0; /* Padding for input text */
+            margin-bottom: 30px; 
+            box-shadow: none !important;
+            font-size: 0.95rem;
+        }
+        
+        .form-control::placeholder {
+            color: #888;
+        }
+
+        .form-control:focus {
+            border-color: #004ba0; 
+        }
+
+        textarea.form-control {
+            resize: none;
+            padding: 10px 0;
+        }
+        
+        /* FIX: Custom class for perfect phone prefix alignment */
+        .phone-prefix-group {
+            /* Inherits margin-bottom from form-control when in a col */
+            margin-bottom: 30px; 
+            /* Ensure the text aligns with the input text content */
+            padding-bottom: 8px; 
+        }
+
+        /* Privacy Notice */
+        .privacy-notice {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #666;
+        }
+        
+        .privacy-notice a {
+            color: #004ba0;
+            font-weight: 600;
+        }
+        
+        /* Next Button */
+        .btn-primary {
+            background-color: #004ba0;
+            border-color: #004ba0;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #002a6a;
+            border-color: #002a6a;
+        }
+        
+        /* Responsive Split Screen Adjustments */
+        @media (min-width: 992px) {
+            .contact-info {
+                flex: 0 0 380px;
+            }
+            .contact-form-side {
+                min-width: 0;
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .contact-card {
+                flex-direction: column;
+            }
+        }
