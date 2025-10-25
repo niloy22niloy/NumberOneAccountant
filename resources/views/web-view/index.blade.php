@@ -15,11 +15,14 @@
                     </div>
 
                     <h1 class="fw-bold mb-3 hero_title" style="color: var(--secondary-color);">
-                        Number <span class="text-highlight">One</span> Accounting
+                        {{-- {{ $hero }} --}}
+                        @if (isset($hero->title))
+                            {!! $hero->title !!}
+                        @endif
                     </h1>
 
                     <p class="lead text-muted mb-4">
-                        Empowering Businesses with Accurate, Reliable, and Stress-Free Accounting Solutions.
+                        {{ $hero->description ? $hero->description : '' }}
                     </p>
 
                     <div class="d-flex justify-content-center justify-content-lg-start">
@@ -307,18 +310,18 @@
             </div>
 
             <!-- <div class="row justify-content-center mb-5">
-                                    <div class="col-lg-8 col-md-10">
-                                        <div class="alert alert-light text-center py-2 px-3 mb-0" role="alert">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                class="bi bi-shield-lock-fill text-primary-custom me-2" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd"
-                                                    d="M8 0c-.69 0-1.843.915-2.564 2.176l-.6.61L.742 8l4.094 4.887.892.203C6.721 13.992 8 16 8 16s1.279-2.008 2.327-2.91L11.564 13.38l.6-.61C13.843 12.085 15 10.93 15 8V4.5l-7-4.5zM9.545 10.36a.5.5 0 0 0-.877.301l-.254.912a.5.5 0 0 0 .964 0l.254-.912a.5.5 0 0 0-.106-.301z" />
-                                            </svg>
-                                            We do not store any credit card information in server, payments are processed by gateways
-                                            and site is secured by 128 bit SSL encryption.
-                                        </div>
-                                    </div>
-                                </div> -->
+                                                                    <div class="col-lg-8 col-md-10">
+                                                                        <div class="alert alert-light text-center py-2 px-3 mb-0" role="alert">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                                                class="bi bi-shield-lock-fill text-primary-custom me-2" viewBox="0 0 16 16">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M8 0c-.69 0-1.843.915-2.564 2.176l-.6.61L.742 8l4.094 4.887.892.203C6.721 13.992 8 16 8 16s1.279-2.008 2.327-2.91L11.564 13.38l.6-.61C13.843 12.085 15 10.93 15 8V4.5l-7-4.5zM9.545 10.36a.5.5 0 0 0-.877.301l-.254.912a.5.5 0 0 0 .964 0l.254-.912a.5.5 0 0 0-.106-.301z" />
+                                                                            </svg>
+                                                                            We do not store any credit card information in server, payments are processed by gateways
+                                                                            and site is secured by 128 bit SSL encryption.
+                                                                        </div>
+                                                                    </div>
+                                                                </div> -->
 
         </div>
     </section>
