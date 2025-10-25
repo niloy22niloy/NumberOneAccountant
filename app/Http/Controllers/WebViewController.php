@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HeroSection;
 use Illuminate\Http\Request;
 
 class WebViewController extends Controller
@@ -9,7 +10,8 @@ class WebViewController extends Controller
     //
     public function home()
     {
-        return view('web-view.index');
+        $hero = HeroSection::first();
+        return view('web-view.index',compact('hero'));
     }
     public function pricing()
     {
