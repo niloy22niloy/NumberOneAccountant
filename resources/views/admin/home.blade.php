@@ -1,8 +1,10 @@
 @extends('admin.dashboard')
 
 @section('content')
-    <div class="container mt-4">
-
+    <div class="containerfluid p-0">
+    <div class="col-auto d-none d-sm-block">
+							<h3><strong>First-Section/ </strong> Hero-Section</h3>
+						</div>
 
         <div class="row">
             <div class="col-sm-6 col-md-8 col-lg-8 mx-auto">
@@ -18,9 +20,9 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label>Title (You can color words)</label>
+                                <label class="form-label">Title (You can color words)</label>
 
-                                @if ($hero->title)
+                                @if (isset($hero->title))
                                     <textarea name="title" id="titleEditor" class="form-control">{!! $hero->title !!}</textarea>
                                 @else
                                     <textarea name="title" id="titleEditor" class="form-control"></textarea>

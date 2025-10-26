@@ -9,20 +9,21 @@
                 <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
                     <div class="d-inline-flex align-items-center mb-4 p-2 px-3 rounded-pill bg-light border"
                         style="color: var(--secondary-color); font-size: 0.9rem;">
-                        Easy <strong class="mx-1">Services</strong>
-                        <a href="#" class="text-decoration-none ms-2 fw-bold"
-                            style="color: var(--primary-color);">Painless Life</a>
+                        {{ isset($hero->subtitle) ? $hero->subtitle : 'add some subTitle' }}
+
                     </div>
 
                     <h1 class="fw-bold mb-3 hero_title" style="color: var(--secondary-color);">
                         {{-- {{ $hero }} --}}
                         @if (isset($hero->title))
                             {!! $hero->title !!}
+                            @else
+                            "Please Add A Title"
                         @endif
                     </h1>
 
                     <p class="lead text-muted mb-4">
-                        {{ $hero->description ? $hero->description : '' }}
+                        {{ isset($hero->description) ? $hero->description : 'Please Add Some Description' }}
                     </p>
 
                     <div class="d-flex justify-content-center justify-content-lg-start">
@@ -35,9 +36,13 @@
                 </div>
 
                 <div class="col-lg-6">
+                    @if(isset($hero->video))
                     <video src="video.mp4" class="img-fluid rounded shadow-lg" autoplay muted loop
                         style="width: 100%; height: auto; border-radius: 5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background-size: cover; border: 1px solid #fff;">
                     </video>
+                    @else
+                    Please Add A Video
+                    @endif
                 </div>
             </div>
             <!---Pricing Section-->
