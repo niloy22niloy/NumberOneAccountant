@@ -22,8 +22,15 @@ Route::get('/insert',function(){
 Route::get('/home',[WebViewController::class,'home'])->name('home');
 Route::get('/pricing',[WebViewController::class,'pricing'])->name('pricing');
 Route::get('/about',[WebViewController::class,'about'])->name('about');
+Route::get('/resource',[WebViewController::class,'resource'])->name('resource');
 Route::get('/contact',[WebViewController::class,'contact'])->name('contact');
 Route::get('/legal',[WebViewController::class,'legal'])->name('legal');
+
+
+//contact-us
+Route::post('/contanct_us',[WebViewController::class,'contanct_us'])->name('contanct_us');
+
+
 
 
 
@@ -60,6 +67,38 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/about_card_update', [DashboardController::class, 'about_card_update'])->name('about_card_update');
         Route::get('/about_card_delete/{id}', [DashboardController::class, 'about_card_delete'])->name('about_card_delete');
 
+        Route::post('/about_third_section_post', [DashboardController::class, 'about_third_section_post'])->name('about_third_section_post');
+        Route::post('/about_third_section_card_post', [DashboardController::class, 'about_third_section_card_post'])->name('about_third_section_card_post');
+        Route::post('/about_third_section_card_update', [DashboardController::class, 'about_third_section_card_update'])->name('about_third_section_card_update');
+        Route::get('/about_third_section_card_delete/{id}', [DashboardController::class, 'about_third_section_card_delete'])->name('about_third_section_card_delete');
+         Route::post('/about_last_section_post', [DashboardController::class,
+         'about_last_section_post'])->name('about_last_section_post');
+
+         //Contact
+        Route::get('/contact', [DashboardController::class,
+        'contact'])->name('contact');
+         Route::get('/contact_delete/{id}', [DashboardController::class,
+         'contact_delete'])->name('contact_delete');
+
+          Route::get('/admin/legal_documentation', [DashboardController::class,
+          'admin_legal_documentation'])->name('legal_documentation');
+          Route::post('/admin/legal/store', [DashboardController::class, 'legal_store'])->name('legal.store');
+          Route::get('/admin/legal/view/{id}', [DashboardController::class, 'view'])->name('legal.view');
+          Route::get('/admin/legal/download/{id}', [DashboardController::class,
+          'download'])->name('legal.download');
+          Route::put('/admin/legal/title/update', [DashboardController::class,
+          'legal_update'])->name('legal.title.update');
+             Route::get('/resources', [DashboardController::class,
+             'resources'])->name('resources');
+             Route::post('modules', [DashboardController::class, 'module_store'])->name('modules.store');
+          
+
+
+
+        
+
+        
+         
 
     });
 });

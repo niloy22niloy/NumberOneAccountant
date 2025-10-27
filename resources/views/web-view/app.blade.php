@@ -75,7 +75,13 @@
                         @endif
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-color" data-target="resources-view" href="#">Resources</a>
+                        @if (url()->current() == url('/resource'))
+                            <a class="nav-link text-color " href="{{ route('resource') }}"
+                                style="color: #1E88E5 !important;" wire:navigate>Resources</a>
+                        @else
+                            <a class="nav-link text-color {{ url()->current() == url('/resource') ? 'active' : '' }}"
+                                href="{{ route('resource') }}" wire:navigate>Resources</a>
+                        @endif
 
                     </li>
                     <li class="nav-item">

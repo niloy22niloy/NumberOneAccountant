@@ -44,34 +44,59 @@
                         <h2>Post your query here</h2>
                         <p class="lead-text">Feel free to get in touch for more help.</p>
 
-                        <form action="#" method="POST">
+                        <form action="{{ route('contanct_us') }}" method="POST">
+                            @csrf
+                            @if (session('success'))
+                                <div class="alert alert-success mt-3">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="full_name" placeholder="Full Name*"
-                                        required>
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control @error('full_name') is-invalid @enderror"
+                                        name="full_name" value="{{ old('full_name') }}" placeholder="Full Name*" required>
+                                    @error('full_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control" name="email" placeholder="Email Address*"
-                                        required>
+
+                                <div class="col-md-6 mb-3">
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        name="email" value="{{ old('email') }}" placeholder="Email Address*" required>
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 d-flex align-items-end">
-                                    <span class="text-muted me-2 phone-prefix-group">+44</span>
-                                    <input type="tel" class="form-control flex-grow-1" name="contact_number"
-                                        placeholder="7400 123456" required>
+                                <div class="col-md-6 mb-3 d-flex align-items-end">
+                                    <input type="tel"
+                                        class="form-control flex-grow-1 @error('contact_number') is-invalid @enderror"
+                                        name="contact_number" value="{{ old('contact_number') }}"
+                                        placeholder="Phone Number*" required>
+                                    @error('contact_number')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="company"
-                                        placeholder="Company (Optional)">
+
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" class="form-control @error('company') is-invalid @enderror"
+                                        name="company" value="{{ old('company') }}" placeholder="Company (Optional)">
+                                    @error('company')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-12">
-                                    <textarea class="form-control" name="message" rows="4" placeholder="Message" required></textarea>
+                                <div class="col-12 mb-3">
+                                    <textarea class="form-control @error('message') is-invalid @enderror" name="message" rows="4"
+                                        placeholder="Message" required>{{ old('message') }}</textarea>
+                                    @error('message')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -90,8 +115,8 @@
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary px-5">Next</button>
                             </div>
-
                         </form>
+
                     </div>
                 </div>
             </div>
