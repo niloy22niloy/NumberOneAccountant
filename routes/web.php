@@ -91,6 +91,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
              Route::get('/resources', [DashboardController::class,
              'resources'])->name('resources');
              Route::post('modules', [DashboardController::class, 'module_store'])->name('modules.store');
+             Route::get('modules/show/{id}', [DashboardController::class, 'module_show'])->name('modules.show');
+             Route::post('modules/posts/store/{id}', [DashboardController::class,
+             'modules_posts_store'])->name('modules.posts.store');
+
+
+             
+
+
+            
+
           
 
 

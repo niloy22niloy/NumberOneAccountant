@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ResourceModule extends Model
+class ModulePosts extends Model
 {
     //
     protected $guarded = ['id'];
-      
 
+  
 }

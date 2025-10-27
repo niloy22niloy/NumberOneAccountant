@@ -27,10 +27,10 @@
         </div>
 
         <!-- Modules List -->
-        {{-- <div class="card">
+        <div class="card">
             <div class="card-header">Existing Modules</div>
             <div class="card-body">
-                @if ($modules->count() > 0)
+                @if ($resource_Module->count() > 0)
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -41,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($modules as $module)
+                            @foreach ($resource_Module as $module)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $module->name }}</td>
@@ -49,13 +49,13 @@
                                     <td>
                                         <a href="{{ route('admin.modules.show', $module->id) }}"
                                             class="btn btn-primary btn-sm">Open</a>
-                                        <form action="{{ route('admin.modules.destroy', $module->id) }}" method="POST"
+                                        {{-- <form action="{{ route('admin.modules.destroy', $module->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Delete this module?')">Delete</button>
-                                        </form>
+                                        </form> --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -65,6 +65,6 @@
                     <p>No modules created yet.</p>
                 @endif
             </div>
-        </div> --}}
+        </div>
     </div>
 @endsection

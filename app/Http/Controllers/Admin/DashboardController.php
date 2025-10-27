@@ -7,9 +7,12 @@ use App\Models\About_first;
 use App\Models\ContactUs;
 use App\Models\HeroSection;
 use App\Models\LegalDocument;
+use App\Models\ModulePosts;
+use App\Models\ResourceModule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -72,8 +75,14 @@ class DashboardController extends Controller
         $about_third_section = \App\Models\About_third_section::first();
         $about_third_section_cards = \App\Models\About_third_section_card::all();
         $about_last_section = \App\Models\About_last_section::first();
-        return view('admin.about', compact('About_first', 'About_second_section', 'about_card', 'about_third_section',
-        'about_third_section_cards','about_last_section'));
+        return view('admin.about', compact(
+            'About_first',
+            'About_second_section',
+            'about_card',
+            'about_third_section',
+            'about_third_section_cards',
+            'about_last_section'
+        ));
     }
     public function about_first_section_post(Request $request)
     {
@@ -237,63 +246,64 @@ class DashboardController extends Controller
     }
     public function contact()
     {
-        $contacts = ContactUs::orderBy('id','desc')->get(); // Fetch all contacts, newest first
+        $contacts = ContactUs::orderBy('id', 'desc')->get(); // Fetch all contacts, newest first
         return view('admin.contact', compact('contacts'));
     }
     public function contact_delete($id)
     {
         ContactUs::find($id)->delete();
-        return back()->with('success',"Successfully Deleted");
+        return back()->with('success', "Successfully Deleted");
     }
     public function admin_legal_documentation()
     {
         $documents = LegalDocument::latest()->get();
         $legal_docuemt_content = \App\Models\LeagDocumentContent::first();
-        return view('admin.legal_documentation',compact('documents','legal_docuemt_content'));
+        return view('admin.legal_documentation', compact('documents', 'legal_docuemt_content'));
     }
     public function legal_store(Request $request)
     {
-         $request->validate([
-         'title' => 'required|string|max:255',
-         'category' => 'required|string|max:100',
-         'file' => 'required|mimes:pdf,doc,docx,xls,xlsx', // max 20MB
-         ]);
-
-         $file = $request->file('file');
-         $folderPath = public_path('uploads/legal_docs');
-
-         if (!File::exists($folderPath)) {
-         File::makeDirectory($folderPath, 0755, true);
-         }
-
-         $fileName = time() . '_' . $file->getClientOriginalName();
-         $file->move($folderPath, $fileName);
-
-         LegalDocument::create([
-         'title' => $request->title,
-         'category' => $request->category,
-         'file_name' => $fileName,
-         'file_path' => 'uploads/legal_docs/' . $fileName,
-         'file_type' => $file->getClientOriginalExtension(),
-         ]);
-
-         return redirect()->back()->with('success', 'Document uploaded successfully!');
-    }
-      public function download($id)
-      {
-      $document = LegalDocument::findOrFail($id);
-      return response()->download(public_path($document->file_path));
-      }
-
-      public function view($id)
-      {
-      $document = LegalDocument::findOrFail($id);
-      return response()->file(public_path($document->file_path));
-      }
-      public function legal_update(Request $request){
         $request->validate([
-        'main_title' => 'required|string|max:255',
-        'short_title' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:100',
+            'file' => 'required|mimes:pdf,doc,docx,xls,xlsx', // max 20MB
+        ]);
+
+        $file = $request->file('file');
+        $folderPath = public_path('uploads/legal_docs');
+
+        if (!File::exists($folderPath)) {
+            File::makeDirectory($folderPath, 0755, true);
+        }
+
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move($folderPath, $fileName);
+
+        LegalDocument::create([
+            'title' => $request->title,
+            'category' => $request->category,
+            'file_name' => $fileName,
+            'file_path' => 'uploads/legal_docs/' . $fileName,
+            'file_type' => $file->getClientOriginalExtension(),
+        ]);
+
+        return redirect()->back()->with('success', 'Document uploaded successfully!');
+    }
+    public function download($id)
+    {
+        $document = LegalDocument::findOrFail($id);
+        return response()->download(public_path($document->file_path));
+    }
+
+    public function view($id)
+    {
+        $document = LegalDocument::findOrFail($id);
+        return response()->file(public_path($document->file_path));
+    }
+    public function legal_update(Request $request)
+    {
+        $request->validate([
+            'main_title' => 'required|string|max:255',
+            'short_title' => 'required|string|max:255',
         ]);
 
         // You can have one record for the page title (id=1)
@@ -303,22 +313,67 @@ class DashboardController extends Controller
         $page->save();
 
         return back()->with('success', 'Legal documentation titles updated successfully!');
-      }
-      
-      public function resources()
-      {
-        return view('admin.resources');
-      }
-      public function module_store(Request $request) {
-      $request->validate([
-      'name' => 'required|string|max:255',
-      ]);
+    }
 
-      Module::create([
-      'name' => $request->name,
-      'description' => $request->description,
-      ]);
+    public function resources()
+    {
+        $resource_Module = ResourceModule::orderBy('id', 'desc')->get();
+        return view('admin.resources', compact('resource_Module'));
+    }
+    public function module_store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
-      return redirect()->back()->with('success', 'Module added successfully!');
-      }
+        ResourceModule::create([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->back()->with('success', 'Module added successfully!');
+    }
+    public function module_show($id)
+    {
+        $module = ResourceModule::find($id);
+        $module_posts = ModulePosts::where('module_id', $id)->get();
+        if ($module) {
+            return view('admin.module_view', compact('module', 'module_posts'));
+        } else {
+            return back()->with('error', "Sorry Something went wrong!!");
+        }
+    }
+    public function modules_posts_store(Request $request, $moduleId)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'description' => 'required|string',
+        ]);
+
+        $module = ResourceModule::findOrFail($moduleId);
+
+        // Handle image upload
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+
+            // Move file to public/uploads/posts
+            $image->move(public_path('uploads/posts'), $imageName);
+
+            // Save the relative path
+            $imagePath = 'uploads/posts/' . $imageName;
+        }
+
+        ModulePosts::create([
+            'title' => $request->title,
+            'module_id' => $module->id,
+            'subtitle' => $request->subtitle,
+            'image' => $imagePath,
+            'description' => $request->description
+        ]);
+        return redirect()->back()->with('success', $module->name . ' post added successfully!');
+    }
 }

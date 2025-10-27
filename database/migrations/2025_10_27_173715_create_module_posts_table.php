@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resource_modules', function (Blueprint $table) {
+        Schema::create('module_posts', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('description')->nullable();
+            $table->integer('module_id'); // Link to modules table
+            $table->string('title');
+            $table->string('subtitle')->nullable();
+            $table->string('image')->nullable();
+            $table->longText('description');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resource_modules');
+        Schema::dropIfExists('module_posts');
     }
 };
