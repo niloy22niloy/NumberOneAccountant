@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebViewController;
 use App\Models\Admin;
@@ -29,6 +30,9 @@ Route::get('/legal',[WebViewController::class,'legal'])->name('legal');
 
 //contact-us
 Route::post('/contanct_us',[WebViewController::class,'contanct_us'])->name('contanct_us');
+
+Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+Route::post('/charge', [PaymentController::class, 'charge'])->name('charge');
 
 
 
