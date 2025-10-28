@@ -77,5 +77,20 @@
 
          </ul>
 
+          <ul class="sidebar-nav">
+             <li class="sidebar-header">
+                 Pricing
+             </li>
+
+             <li class="sidebar-item active">
+                 <a class="sidebar-link" href="{{ route('admin.pricing') }}">
+                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Pricing</span>
+                 </a>
+             </li>
+
+
+
+         </ul>
+
      </div>
  </nav>

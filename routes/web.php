@@ -94,21 +94,38 @@ Route::prefix('admin')->name('admin.')->group(function () {
              Route::get('modules/show/{id}', [DashboardController::class, 'module_show'])->name('modules.show');
              Route::post('modules/posts/store/{id}', [DashboardController::class,
              'modules_posts_store'])->name('modules.posts.store');
+            Route::get('modules/posts/edit/{id}', [DashboardController::class,'modules_posts_edit'])->name('modules.posts.edit');
+            Route::put('modules/posts/update/{module_id}/{post_id}', [DashboardController::class,'modules_posts_update'])->name('modules.posts.update');
+            Route::delete('modules/posts/destroy/{id}', [DashboardController::class,'modules_posts_destroy'])->name('modules.posts.destroy');
 
 
-             
+        Route::get('/pricing', [DashboardController::class, 'pricing'])->name('pricing');
+        // Route::get('/', [PricingPlanController::class, 'index'])->name('index');
+        Route::post('/pricing_store', [DashboardController::class, 'pricing_store'])->name('pricing.store');
+
+        Route::get('/pricing/edit/{id}', [DashboardController::class, 'pricing_edit'])->name('pricing.edit');
+
+        Route::put('pricing/{id}', [DashboardController::class, 'pricing_update'])->name('pricing.update');
+
+        Route::delete('/pricing/destroy/{id}', [DashboardController::class, 'pricing_destroy'])->name('pricing.destroy');
 
 
-            
-
-          
+        Route::post('/pricing/activate/{id}', [DashboardController::class, 'pricing_activate'])->name('pricing.activate');
 
 
 
-        
 
-        
-         
+
+
+
+
+
+
+
+
+
+
+
 
     });
 });

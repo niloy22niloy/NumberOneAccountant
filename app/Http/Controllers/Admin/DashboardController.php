@@ -8,6 +8,7 @@ use App\Models\ContactUs;
 use App\Models\HeroSection;
 use App\Models\LegalDocument;
 use App\Models\ModulePosts;
+use App\Models\pricing_plans;
 use App\Models\ResourceModule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -375,5 +376,128 @@ class DashboardController extends Controller
             'description' => $request->description
         ]);
         return redirect()->back()->with('success', $module->name . ' post added successfully!');
+    }
+    public function  modules_posts_edit($id)
+    {
+        $post = ModulePosts::findOrFail($id);
+
+        $module = ResourceModule::findOrFail($post->module_id);
+
+
+        if ($post) {
+            return view('admin.module_post_edit', compact('post', 'module'));
+        } else {
+            return back()->with('error', "Sorry Something went wrong!!");
+        }
+    }
+    public function modules_posts_update(Request $request, $module_id, $post_id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'description' => 'required|string',
+        ]);
+
+        $post = ModulePosts::findOrFail($post_id);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+
+            // Move file to public/uploads/posts
+            $image->move(public_path('uploads/posts'), $imageName);
+
+            // Save the relative path
+            $post->image = 'uploads/posts/' . $imageName;
+        }
+
+        $post->title = $request->title;
+        $post->subtitle = $request->subtitle;
+        $post->description = $request->description;
+        $post->save();
+
+        return redirect()->back()->with('success', 'Post updated successfully!');
+    }
+    public function modules_posts_destroy($id)
+    {
+        $post = ModulePosts::findOrFail($id);
+        $post->delete();
+
+        return redirect()->back()->with('success', 'Post deleted successfully!');
+    }
+    public function pricing()
+    {
+        $plans = pricing_plans::all();
+
+        // Separate active and inactive plans
+        $activePlans = $plans->where('status', 1);
+        $inactivePlans = $plans->where('status', 0);
+
+        return view('admin.pricing', compact('activePlans', 'inactivePlans'));
+    }
+    public function pricing_store(Request $request)
+    {
+        $validated = $request->validate([
+            'plan_type' => 'required|string',
+            'billing_cycle' => 'required|string|in:Monthly,Annually',
+            'title' => 'required|string|unique:pricing_plans,title',
+            'price' => 'required|numeric',
+            'features' => 'required|array',
+        ]);
+
+        pricing_plans::create([
+            'plan_type' => $validated['plan_type'],
+            'billing_cycle' => $validated['billing_cycle'],
+            'title' => $validated['title'],
+            'price' => $validated['price'],
+            'features' => $validated['features'],
+        ]);
+
+        return back()->with('success', 'Pricing plan added successfully!');
+    }
+    public function pricing_edit($id)
+    {
+        $plan = pricing_plans::findOrFail($id);
+        return view('admin.pricing_edit', compact('plan'));
+    }
+    public function pricing_update(Request $request, $id)
+    {
+        $plan = pricing_plans::findOrFail($id);
+
+        $validated = $request->validate([
+            'plan_type' => 'required|string',
+            'billing_cycle' => 'required|string|in:Monthly,Annually',
+            'title' => 'required|string|unique:pricing_plans,title,' . $plan->id,
+            'price' => 'required|numeric',
+            'features' => 'required|array',
+        ]);
+
+        $plan->update([
+            'plan_type' => $validated['plan_type'],
+            'billing_cycle' => $validated['billing_cycle'],
+            'title' => $validated['title'],
+            'price' => $validated['price'],
+            'features' => $validated['features'],
+        ]);
+
+        return back()->with('success', 'Pricing plan updated successfully!');
+    }
+    public function pricing_destroy($id)
+    {
+        $plan = pricing_plans::findOrFail($id);
+        $plan->update(['status' => 0]);
+        // $plan->save();
+
+        return back()->with('success', 'Pricing plan deactivated successfully!');
+    }
+    public function pricing_activate($id)
+    {
+        $plan = pricing_plans::findOrFail($id);
+        $plan->update(['status' => 1]);
+        // $plan->save();
+
+        return back()->with('success', 'Pricing plan activated successfully!');
     }
 }
