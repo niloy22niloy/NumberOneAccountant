@@ -27,6 +27,11 @@ Route::get('/resource',[WebViewController::class,'resource'])->name('resource');
 Route::get('/contact',[WebViewController::class,'contact'])->name('contact');
 Route::get('/legal',[WebViewController::class,'legal'])->name('legal');
 
+Route::get('/legal/view/{id}',[WebViewController::class,'view'])->name('view');
+Route::get('/legal/download/{id}',[WebViewController::class,'download'])->name('download');
+
+
+
 
 //contact-us
 Route::post('/contanct_us',[WebViewController::class,'contanct_us'])->name('contanct_us');
@@ -88,8 +93,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
           'admin_legal_documentation'])->name('legal_documentation');
           Route::post('/admin/legal/store', [DashboardController::class, 'legal_store'])->name('legal.store');
           Route::get('/admin/legal/view/{id}', [DashboardController::class, 'view'])->name('legal.view');
-          Route::get('/admin/legal/download/{id}', [DashboardController::class,
-          'download'])->name('legal.download');
+          Route::get('/admin/legal/download/{id}', [DashboardController::class,'download'])->name('legal.download');
           Route::put('/admin/legal/title/update', [DashboardController::class,
           'legal_update'])->name('legal.title.update');
              Route::get('/resources', [DashboardController::class,

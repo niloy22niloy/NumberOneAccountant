@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About_card;
+use App\Models\About_first;
+use App\Models\About_last_section;
+use App\Models\About_second_section;
+use App\Models\About_third_section;
+use App\Models\About_third_section_card;
 use App\Models\ContactUs;
 use App\Models\HeroSection;
+use App\Models\LegalDocument;
 use App\Models\pricing_plans;
 use Illuminate\Http\Request;
 
@@ -45,7 +52,13 @@ class WebViewController extends Controller
     }
     public function about()
     {
-        return view('web-view.about');
+        $about_first_section = About_first::first();
+        $about_second_section = About_second_section::first();
+        $about_second_section_card = About_card::all();
+        $about_third_section = About_third_section::first();
+        $about_third_section_card = About_third_section_card::all();
+        $about_last_section = About_last_section::first();
+        return view('web-view.about',compact('about_first_section','about_second_section','about_second_section_card','about_third_section','about_third_section_card','about_last_section'));
     }
     public function contact()
     {
@@ -53,7 +66,20 @@ class WebViewController extends Controller
     }
     public function legal()
     {
-        return view('web-view.legal');
+        $legal_document_content = \App\Models\LeagDocumentContent::first();
+         $legal_documents = LegalDocument::all();
+        return view('web-view.legal',compact('legal_document_content','legal_documents'));
+    }
+    public function download($id)
+    {
+        $document = LegalDocument::findOrFail($id);
+        return response()->download(public_path($document->file_path));
+    }
+
+    public function view($id)
+    {
+        $document = LegalDocument::findOrFail($id);
+        return response()->file(public_path($document->file_path));
     }
     public function contanct_us(Request $request)
     {
