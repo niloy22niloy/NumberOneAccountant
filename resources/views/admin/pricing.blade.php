@@ -49,6 +49,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" name="homepage_show" id="homepage_show"
+                            value="1">
+                        <label class="form-check-label" for="homepage_show">
+                            Show this plan on Homepage
+                        </label>
+                    </div>
 
                     <button type="submit" class="btn btn-primary mt-3">Add Plan</button>
                 </form>
@@ -69,6 +76,7 @@
                                 <th>Title</th>
                                 <th>Price</th>
                                 <th>Features</th>
+                                <th>Webpage View</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -86,6 +94,13 @@
                                                 <li>{{ $feature }}</li>
                                             @endforeach
                                         </ul>
+                                    </td>
+                                    <td>
+                                        @if ($plan->homepage_show == 1)
+                                            Active
+                                        @else
+                                            Not Active
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('admin.pricing.edit', $plan->id) }}"

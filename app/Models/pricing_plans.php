@@ -14,6 +14,7 @@ class pricing_plans extends Model
         'price',
         'features',
         'status',
+        'homepage_show',
     ];
 
     protected $casts = [
