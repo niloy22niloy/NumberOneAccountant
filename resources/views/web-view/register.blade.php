@@ -1,57 +1,3 @@
-{{-- <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
-
-
 @extends('web-view.app')
 
 @section('content')
@@ -63,50 +9,33 @@
                 <p>Join us and get started today</p>
             </div>
 
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
-
+            <form action="register-submit.html" method="POST">
                 <div class="form-floating-custom">
-                    <input type="text" name="name" class="form-control-custom" id="registerName" placeholder=" "
-                        value="{{ old('name') }}" required autofocus>
+                    <input type="text" class="form-control-custom" id="registerName" placeholder=" " required>
                     <label for="registerName" class="form-label-custom">Full Name</label>
-                    @error('name')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <div class="form-floating-custom">
-                    <input type="email" name="email" class="form-control-custom" id="registerEmail" placeholder=" "
-                        value="{{ old('email') }}" required>
+                    <input type="email" class="form-control-custom" id="registerEmail" placeholder=" " required>
                     <label for="registerEmail" class="form-label-custom">Email Address</label>
-                    @error('email')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <div class="form-floating-custom">
-                    <input type="password" name="password" class="form-control-custom" id="registerPassword" placeholder=" "
-                        required>
+                    <input type="password" class="form-control-custom" id="registerPassword" placeholder=" " required>
                     <label for="registerPassword" class="form-label-custom">Password</label>
-                    @error('password')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <div class="form-floating-custom">
-                    <input type="password" name="password_confirmation" class="form-control-custom"
-                        id="registerConfirmPassword" placeholder=" " required>
+                    <input type="password" class="form-control-custom" id="registerConfirmPassword" placeholder=" "
+                        required>
                     <label for="registerConfirmPassword" class="form-label-custom">Confirm Password</label>
-                    @error('password_confirmation')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <button type="submit" class="btn btn-auth-primary w-100">Register</button>
             </form>
 
             <div class="auth-footer">
-                <small>Already have an account? <a href="{{ route('login') }}" wire:navigate>Sign In here</a></small>
+                <small>Already have an account? <a href="sign-in.html">Sign In here</a></small>
             </div>
         </div>
     </div>
@@ -121,6 +50,7 @@
             --input-focus-border: #0d6efd;
         }
 
+        /* Full Page Centering */
         .auth-page {
             display: flex;
             align-items: center;
@@ -130,6 +60,7 @@
             padding: 2rem 1rem;
         }
 
+        /* Card */
         .auth-card {
             width: 100%;
             max-width: 420px;
@@ -145,6 +76,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
 
+        /* Header */
         .auth-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -166,6 +98,7 @@
             font-size: 0.95rem;
         }
 
+        /* Floating Labels */
         .form-floating-custom {
             position: relative;
             margin-bottom: 1.75rem;
@@ -209,6 +142,7 @@
             padding: 0 0.3rem;
         }
 
+        /* Buttons */
         .btn-auth-primary {
             background-color: var(--primary-color);
             color: #fff;
@@ -223,6 +157,7 @@
             background-color: #0b5ed7;
         }
 
+        /* Footer links */
         .auth-footer {
             text-align: center;
             margin-top: 1.5rem;
@@ -237,13 +172,6 @@
 
         .auth-footer a:hover {
             text-decoration: underline;
-        }
-
-        .text-danger {
-            color: #dc3545;
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
-            display: block;
         }
     </style>
 @endsection

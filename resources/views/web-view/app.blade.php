@@ -108,19 +108,51 @@
 
 
                 </ul>
+                <div class="d-flex align-items-center">
 
-                <div class="d-flex sign_in_register_buttons">
-                    <a href="register.html" class="btn sign_in_button me-2" aria-label="Sign In"
-                        style=" border-color: rgb(51, 50, 50);
-                        color: #000000;
-                        /* font-weight: 600; */
-                        border-radius: 0;
-                        transition: background-color 0.3s;
-                        font-size: 14px;
-                        padding: 6px 19px;">Sign
-                        In</a>
-                    <a href="register.html" class="btn fw-bold register_btn"
-                        style="background-color: var(--primary-color);" aria-label="Try it Free">Register</a>
+                    @auth
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style="background-color: var(--primary-color); color: white; border-radius: 0.25rem;">
+                                {{ Auth::user()->name }}
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                        <i class="fas fa-user-circle me-2 text-primary"></i> Profile
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Log Out
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @endauth
+
+                    @guest
+                        <a href="{{ route('login') }}" class="btn sign_in_button me-2" aria-label="Sign In"
+                            style=" border-color: rgb(51, 50, 50); color: #000000; border-radius: 0; transition: background-color 0.3s; font-size: 14px; padding: 6px 19px;">
+                            Sign In
+                        </a>
+                        <a href="{{ route('register') }}" class="btn fw-bold register_btn"
+                            style="background-color: var(--primary-color); color: white;" aria-label="Try it Free">
+                            Register
+                        </a>
+                    @endguest
+
                 </div>
             </div>
         </div>
