@@ -24,6 +24,10 @@ Route::get('/home',[WebViewController::class,'home'])->name('home');
 Route::get('/pricing',[WebViewController::class,'pricing'])->name('pricing');
 Route::get('/about',[WebViewController::class,'about'])->name('about');
 Route::get('/resource',[WebViewController::class,'resource'])->name('resource');
+
+Route::get('/post_show/{id}',[WebViewController::class,'post_show'])->name('post.show');
+
+
 Route::get('/contact',[WebViewController::class,'contact'])->name('contact');
 Route::get('/legal',[WebViewController::class,'legal'])->name('legal');
 

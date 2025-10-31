@@ -11,7 +11,9 @@ use App\Models\About_third_section_card;
 use App\Models\ContactUs;
 use App\Models\HeroSection;
 use App\Models\LegalDocument;
+use App\Models\ModulePosts;
 use App\Models\pricing_plans;
+use App\Models\ResourceModule;
 use Illuminate\Http\Request;
 
 class WebViewController extends Controller
@@ -102,6 +104,12 @@ class WebViewController extends Controller
     }
     public function resource()
     {
-        return view('web-view.resource');
+        $resources = ResourceModule::with('modulePosts')->get();
+        return view('web-view.resource',compact('resources'));
+    }
+    public function post_show($id){
+        $post = ModulePosts::with('resourceModule')->findOrFail($id);
+    return view('web-view.post_show', compact('post'));
+
     }
 }
