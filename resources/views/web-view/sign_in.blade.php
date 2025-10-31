@@ -1,44 +1,3 @@
-{{-- <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
-
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
-
-
 @extends('web-view.app')
 
 @section('content')
@@ -46,8 +5,8 @@
         <div class="auth-card">
             <div class="auth-header">
                 <img src="{{ asset('logoo.png') }}" alt="Logo">
-                <h2>Reset Password</h2>
-                <p>Enter your email and new password to reset your account</p>
+                <h2>Sign In</h2>
+                <p>Welcome back to your dashboard</p>
             </div>
 
             <!-- Session Status -->
@@ -57,48 +16,49 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('password.store') }}">
+            <form method="POST" action="{{ route('login') }}">
                 @csrf
-
-                <!-- Password Reset Token -->
-                <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
                 <!-- Email Address -->
                 <div class="form-floating-custom">
                     <input type="email" class="form-control-custom" id="email" name="email"
-                        value="{{ old('email', $request->email) }}" placeholder=" " required autofocus>
+                        value="{{ old('email') }}" placeholder=" " required autofocus autocomplete="username">
                     <label for="email" class="form-label-custom">Email Address</label>
                     @error('email')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger small">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <!-- Password -->
                 <div class="form-floating-custom">
                     <input type="password" class="form-control-custom" id="password" name="password" placeholder=" "
-                        required>
-                    <label for="password" class="form-label-custom">New Password</label>
+                        required autocomplete="current-password">
+                    <label for="password" class="form-label-custom">Password</label>
                     @error('password')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger small">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <!-- Confirm Password -->
-                <div class="form-floating-custom">
-                    <input type="password" class="form-control-custom" id="password_confirmation"
-                        name="password_confirmation" placeholder=" " required>
-                    <label for="password_confirmation" class="form-label-custom">Confirm Password</label>
-                    @error('password_confirmation')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                <!-- Remember Me & Forgot Password -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
+                        <label class="form-check-label" for="remember_me">Remember me</label>
+                    </div>
+
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-decoration-none forgot-link">Forgot
+                            Password?</a>
+                    @endif
                 </div>
 
-                <button type="submit" class="btn btn-auth-primary w-100">Reset Password</button>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-auth-primary w-100">Log In</button>
             </form>
 
-            <!-- Back to Login -->
+            <!-- Register Link -->
             <div class="auth-footer">
-                <small>Remember your password? <a href="{{ route('login') }}">Log in here</a></small>
+                <small>Don’t have an account? <a href="{{ route('register') }}">Register here</a></small>
             </div>
         </div>
     </div>
@@ -231,22 +191,15 @@
             text-decoration: underline;
         }
 
+        .forgot-link {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
         .text-danger {
             font-size: 0.85rem;
             display: block;
             margin-top: 0.3rem;
-        }
-
-        .alert {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .alert-success {
-            background-color: #e7f5ff;
-            color: #0c5460;
-            border: 1px solid #b6effb;
         }
     </style>
 @endsection

@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+       
         Schema::create('module_posts', function (Blueprint $table) {
             $table->id();
             $table->integer('module_id'); // Link to modules table
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

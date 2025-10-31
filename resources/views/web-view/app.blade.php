@@ -110,7 +110,7 @@
                 </ul>
 
                 <div class="d-flex sign_in_register_buttons">
-                    <a href="register.html" class="btn sign_in_button me-2" aria-label="Sign In"
+                    <a wire:navigate href="{{ route('login') }}" class="btn sign_in_button me-2" aria-label="Sign In"
                         style=" border-color: rgb(51, 50, 50);
                         color: #000000;
                         /* font-weight: 600; */
@@ -119,7 +119,7 @@
                         font-size: 14px;
                         padding: 6px 19px;">Sign
                         In</a>
-                    <a href="register.html" class="btn fw-bold register_btn"
+                    <a wire:navigate href="{{ route('register') }}" class="btn fw-bold register_btn"
                         style="background-color: var(--primary-color);" aria-label="Try it Free">Register</a>
                 </div>
             </div>

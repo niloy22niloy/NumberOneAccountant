@@ -34,6 +34,11 @@ Route::get('/legal',[WebViewController::class,'legal'])->name('legal');
 Route::get('/legal/view/{id}',[WebViewController::class,'view'])->name('view');
 Route::get('/legal/download/{id}',[WebViewController::class,'download'])->name('download');
 
+Route::get('/sign-in',[WebViewController::class,'sign_in'])->name('sign_in');
+Route::get('/user/register',[WebViewController::class,'user_register'])->name('user.register');
+
+
+
 
 
 

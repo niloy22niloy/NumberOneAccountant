@@ -112,4 +112,12 @@ class WebViewController extends Controller
     return view('web-view.post_show', compact('post'));
 
     }
+    public function sign_in()
+    {
+        return view('web-view.sign_in');
+    }
+    public function user_register()
+    {
+        return view('web-view.register');
+    }
 }
