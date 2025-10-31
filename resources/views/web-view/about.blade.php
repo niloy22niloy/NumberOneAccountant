@@ -11,10 +11,20 @@
         <section class="about-section">
             <div class="container">
                 <div class="intro-card text-center">
-                    <h1 class="text-white mb-3">Your Partner in Financial Success</h1>
+                    <h1 class="text-white mb-3">
+                        @if(isset($about_first_section->title))
+                        {{$about_first_section->title}}
+                        @else
+                        Please Add Title
+                        @endif
+                    </h1>
                     <p class="lead">
-                        We provide **expert accounting services** tailored for **self-employed** individuals and **small
-                        business owners**, offering simplicity, compliance, and dedicated support.
+                        @if(isset($about_first_section->subtitle))
+                        {{$about_first_section->subtitle}}
+                        @else
+                        Please Add Subtitle
+                        @endif
+
                     </p>
                 </div>
 
@@ -22,122 +32,64 @@
                     <div class="container">
                         <div class="row">
                             <div class="section-head col-sm-12">
-                                <h4><span>Why Choose</span> Us?</h4>
-                                <p style="color:#000;font-size:18px;">When you choose us, you'll feel the benefit of
-                                    dedicated expertise in accounting. We understand the financial world and how to navigate
-                                    it for your success, whether you're self-employed or a small business owner.</p>
+                                <h4><span>W
+                                    @if(isset($about_second_section->second_title))
+                                    {{$about_second_section->section_title}}
+                                    @else
+                                    Please add title
+                                    @endif
+                                </h4>
+                                <p style="color:#000;font-size:18px;">
+                                    @if(isset($about_second_section->second_subtitle))
+                                    {{$about_second_section->second_subtitle}}
+                                    @else
+                                    Please add subtitle
+                                    @endif
+                                </p>
                             </div>
-                            <div class="col-lg-4 col-sm-6">
+                            @forelse ($about_second_section_card as $cards)
+                                <div class="col-lg-4 col-sm-6">
                                 <div class="item">
-                                    <span class="icon feature_box_col_one"><i class="fa-solid fa-calculator"></i></span>
-                                    <h6>Expert Accounting Service</h6>
-                                    <p>We use modern, efficient methods to provide professional, reliable advice tailored to
-                                        your financial needs.</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="item">
-                                    <span class="icon feature_box_col_two"><i class="fa-solid fa-sterling-sign"></i></span>
+                                    <span class="icon feature_box_col_two"><i class="{{$cards->icon ?? " "}}"></i></span>
                                     <h6>Transparent Fixed Fees</h6>
                                     <p>Our pricing is simple and clear, with one fixed monthly fee and no hidden costs,
                                         making budgeting easy.</p>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="item">
-                                    <span class="icon feature_box_col_three"><i class="fa-solid fa-user-tie"></i></span>
-                                    <h6>Dedicated Relationship Manager</h6>
-                                    <p>You get a personal accountant who truly understands your business, offering
-                                        consistent and tailored support.</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="item">
-                                    <span class="icon feature_box_col_four"><i
-                                            class="fa-solid fa-hand-holding-dollar"></i></span>
-                                    <h6>Maximise Your Returns</h6>
-                                    <p>We work diligently to ensure you're compliant while identifying opportunities to
-                                        optimize your financial position and minimise tax.</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="item">
-                                    <span class="icon feature_box_col_five"><i class="fa-solid fa-headset"></i></span>
-                                    <h6>Unlimited, Expert Support</h6>
-                                    <p>Access our team whenever you need, for any query – big or small. We're here to help
-                                        you succeed.</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6">
-                                <div class="item">
-                                    <span class="icon feature_box_col_six"><i class="fa-solid fa-shield-halved"></i></span>
-                                    <h6>Guaranteed HMRC Compliance</h6>
-                                    <p>Stay stress-free with our compliance-first approach, ensuring you're always
-                                        up-to-date with HMRC regulations.</p>
-                                </div>
-                            </div>
+
+                            @empty
+
+
+                            @endforelse
+
                         </div>
                     </div>
                 </div>
                 <hr class="my-5">
 
                 <div class="section-header">
-                    <h2 class="section-title">Who We Help</h2>
-                    <p class="section-subtitle">We cater to a wide range of individuals and business structures across the
-                        UK.</p>
+                    {{-- {{$about_third_section}} --}}
+                    <h2 class="section-title">
+                        {{$about_third_section->third_title ?? ""}}
+                    </h2>
+                    <p class="section-subtitle">
+                        {{$about_third_section->third_subtitle??""}}
+                    </p>
                 </div>
 
                 <div class="client-box-wrapper mb-5">
 
-                    <div class="client-box">
-                        <i class="fa-solid fa-building client-box-icon"></i>
-                        <span>Limited Companies</span>
-                    </div>
+                    @forelse ($about_third_section_card as $cards)
 
-                    <div class="client-box">
-                        <i class="fa-solid fa-user-check client-box-icon"></i>
-                        <span>Sole Traders</span>
+                     <div class="client-box">
+                        <i class="{{$cards->third_icon ?? ""}}"></i>
+                        <span>{{$cards->third_title ?? ""}}</span>
                     </div>
+                    @empty
 
-                    <div class="client-box">
-                        <i class="fa-solid fa-laptop-code client-box-icon"></i>
-                        <span>Freelancers</span>
-                    </div>
+                    @endforelse
 
-                    <div class="client-box">
-                        <i class="fa-solid fa-briefcase client-box-icon"></i>
-                        <span>Contractors</span>
-                    </div>
 
-                    <div class="client-box">
-                        <i class="fa-solid fa-shop client-box-icon"></i>
-                        <span>Small Businesses</span>
-                    </div>
-
-                    <div class="client-box">
-                        <i class="fa-solid fa-rocket client-box-icon"></i>
-                        <span>Start-ups</span>
-                    </div>
-
-                    <div class="client-box">
-                        <i class="fa-solid fa-user-tag client-box-icon"></i>
-                        <span>Self-Employed</span>
-                    </div>
-
-                    <div class="client-box">
-                        <i class="fa-solid fa-cart-shopping client-box-icon"></i>
-                        <span>E-commerce Sellers</span>
-                    </div>
-
-                    <div class="client-box">
-                        <i class="fa-solid fa-house client-box-icon"></i>
-                        <span>Landlords</span>
-                    </div>
-
-                    <div class="client-box">
-                        <i class="fa-solid fa-users client-box-icon"></i>
-                        <span>Specialist Workers</span>
-                    </div>
 
                 </div>
 
@@ -145,9 +97,11 @@
                     <a href="#" class="btn btn-primary btn-lg px-5 py-3 shadow-lg">Get a Free Consultation Today</a>
                 </div> -->
                 <div class="cta-section">
-                    <h3>Ready to Get Started?</h3>
-                    <p>Join hundreds of satisfied clients who trust us with their accounting needs</p>
-                    <a href="#" class="btn-cta">
+                    <h3>
+                        {{$about_last_section->last_title ?? " "}}
+                    </h3>
+                    <p>{{$about_last_section->last_subtitle ?? " "}}</p>
+                    <a href="{{$about_last_section->last_link ?? " "}}" class="btn-cta">
                         <i class="fas fa-rocket me-2"></i>Get Started Today
                     </a>
                 </div>

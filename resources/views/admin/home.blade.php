@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="containerfluid p-0">
-    <div class="col-auto d-none d-sm-block">
-							<h3><strong>First-Section/ </strong> Hero-Section</h3>
-						</div>
+        <div class="col-auto d-none d-sm-block">
+            <h3><strong>First-Section/ </strong> Hero-Section</h3>
+        </div>
 
         <div class="row">
             <div class="col-sm-6 col-md-8 col-lg-8 mx-auto">
@@ -14,7 +14,10 @@
                     </div>
                     <div class="card-body">
                         @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
                         @endif
                         <form action="{{ route('admin.hero.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -23,7 +26,7 @@
                                 <label class="form-label">Title (You can color words)</label>
 
                                 @if (isset($hero->title))
-                                    <textarea name="title" id="titleEditor" class="form-control">{!! $hero->title !!}</textarea>
+                                    <textarea name="title" id="titleEditor" class="form-control" rows="10" cols="50">{!! $hero->title !!}</textarea>
                                 @else
                                     <textarea name="title" id="titleEditor" class="form-control"></textarea>
                                 @endif

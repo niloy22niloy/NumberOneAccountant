@@ -11,8 +11,12 @@
         <section class="legal-section">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Legal Documentation</h2>
-                    <p class="section-subtitle">Access and download our comprehensive legal documents</p>
+                    <h2 class="section-title">
+                       {{$legal_document_content->main_title ?? " "}}
+                    </h2>
+                    <p class="section-subtitle">
+                        {{$legal_document_content->short_title ?? " "}}
+                    </p>
                 </div>
 
                 <div class="table-container">
@@ -20,127 +24,53 @@
                         <table class="table custom-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%;">#</th>
-                                    <th style="width: 40%;">Document Name</th>
-                                    <th style="width: 15%;">Category</th>
-                                    <th style="width: 15%;">Last Updated</th>
-                                    <th style="width: 25%;" class="text-center">Actions</th>
+                                    <th style="">#</th>
+                                    <th style="">Document Name</th>
+                                    <th style="">Category</th>
+
+                                    <th style="">Type</th>
+                                    <th style="">Date</th>
+                                    <th style="" class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="col-number">1.</td>
-                                    <td>
-                                        <div class="doc-info">
-                                            <h6>Terms and Conditions</h6>
-                                            <small>Review our latest terms outlining user responsibilities and platform
-                                                usage guidelines.</small>
-                                        </div>
-                                    </td>
-                                    <td>Contract</td>
-                                    <td>July 2025</td>
-                                    <td class="text-center">
-                                        <a href="docs/terms.pdf" class="btn-action btn-view" target="_blank">
-                                            <i class="fa fa-eye me-1"></i> View
-                                        </a>
-                                        <a href="docs/terms.pdf" download class="btn-action btn-download">
-                                            <i class="fa fa-download me-1"></i> Download
-                                        </a>
-                                    </td>
-                                </tr>
+                                    @forelse($legal_documents as $key=>$document)
 
                                 <tr>
-                                    <td class="col-number">2.</td>
+                                    <td>{{$key+1}}</td>
                                     <td>
                                         <div class="doc-info">
-                                            <h6>Privacy Policy</h6>
-                                            <small>Learn how we protect, store, and use your personal data securely.</small>
+                                            <h6>{{$document->title ?? ""}}</h6>
                                         </div>
                                     </td>
-                                    <td>Privacy</td>
-                                    <td>March 2025</td>
-                                    <td class="text-center">
-                                        <a href="docs/privacy.pdf" class="btn-action btn-view" target="_blank">
-                                            <i class="fa fa-eye me-1"></i> View
-                                        </a>
-                                        <a href="docs/privacy.pdf" download class="btn-action btn-download">
-                                            <i class="fa fa-download me-1"></i> Download
-                                        </a>
-                                    </td>
-                                </tr>
+                                    <td>{{$document->category ?? " "}}</td>
+                                    <td>{{$document->file_type ?? " "}}</td>
+                                    <td>{{$document->created_at->format('D-M-Y') ?? " "}}</td>
 
-                                <tr>
-                                    <td class="col-number">3.</td>
-                                    <td>
-                                        <div class="doc-info">
-                                            <h6>Data Processing Agreement</h6>
-                                            <small>Understand how we handle data shared by users under GDPR
-                                                compliance.</small>
-                                        </div>
-                                    </td>
-                                    <td>Compliance</td>
-                                    <td>January 2025</td>
                                     <td class="text-center">
-                                        <a href="docs/dpa.pdf" class="btn-action btn-view" target="_blank">
+                                        <a href="{{route('view',$document->id)}}" class="btn-action btn-view" target="_blank">
                                             <i class="fa fa-eye me-1"></i> View
                                         </a>
-                                        <a href="docs/dpa.pdf" download class="btn-action btn-download">
+                                        <a href="{{route('download', $document->id)}}" download class="btn-action btn-download">
                                             <i class="fa fa-download me-1"></i> Download
                                         </a>
                                     </td>
                                 </tr>
+                                @empty
 
-                                <tr>
-                                    <td class="col-number">4.</td>
-                                    <td>
-                                        <div class="doc-info">
-                                            <h6>Cookie Policy</h6>
-                                            <small>Details on how cookies are used to improve your browsing
-                                                experience.</small>
-                                        </div>
-                                    </td>
-                                    <td>Policy</td>
-                                    <td>May 2025</td>
-                                    <td class="text-center">
-                                        <a href="docs/cookie.pdf" class="btn-action btn-view" target="_blank">
-                                            <i class="fa fa-eye me-1"></i> View
-                                        </a>
-                                        <a href="docs/cookie.pdf" download class="btn-action btn-download">
-                                            <i class="fa fa-download me-1"></i> Download
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-number">5.</td>
-                                    <td>
-                                        <div class="doc-info">
-                                            <h6>End-User License Agreement</h6>
-                                            <small>Legal agreement between the end-user and the software vendor.</small>
-                                        </div>
-                                    </td>
-                                    <td>Agreement</td>
-                                    <td>Feb 2024</td>
-                                    <td class="text-center">
-                                        <a href="docs/eula.pdf" class="btn-action btn-view" target="_blank">
-                                            <i class="fa fa-eye me-1"></i> View
-                                        </a>
-                                        <a href="docs/eula.pdf" download class="btn-action btn-download">
-                                            <i class="fa fa-download me-1"></i> Download
-                                        </a>
-                                    </td>
-                                </tr>
+                                    @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="text-center mt-4">
+                {{-- <div class="text-center mt-4">
                     <p class="text-muted">
                         <i class="fa-solid fa-circle-info me-2"></i>
                         For questions regarding our legal documents, please <a href="#"
                             class="text-primary text-decoration-none fw-bold">contact our legal team</a>
                     </p>
-                </div>
+                </div> --}}
             </div>
         </section>
     </section>

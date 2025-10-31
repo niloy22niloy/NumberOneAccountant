@@ -453,6 +453,7 @@ class DashboardController extends Controller
             'title' => $validated['title'],
             'price' => $validated['price'],
             'features' => $validated['features'],
+            'homepage_show' => $request->has('homepage_show') ? 1 : 0,
         ]);
 
         return back()->with('success', 'Pricing plan added successfully!');
@@ -462,28 +463,28 @@ class DashboardController extends Controller
         $plan = pricing_plans::findOrFail($id);
         return view('admin.pricing_edit', compact('plan'));
     }
-    public function pricing_update(Request $request, $id)
-    {
-        $plan = pricing_plans::findOrFail($id);
+   public function pricing_update(Request $request, $id)
+{
+    $plan = pricing_plans::findOrFail($id);
+    $validated = $request->validate([
+        'plan_type' => 'required|string',
+        'billing_cycle' => 'required|string|in:Monthly,Annually',
+        'title' => 'required|string|unique:pricing_plans,title,' . $plan->id,
+        'price' => 'required|numeric',
+        'features' => 'required|array',
+    ]);
 
-        $validated = $request->validate([
-            'plan_type' => 'required|string',
-            'billing_cycle' => 'required|string|in:Monthly,Annually',
-            'title' => 'required|string|unique:pricing_plans,title,' . $plan->id,
-            'price' => 'required|numeric',
-            'features' => 'required|array',
-        ]);
+    $plan->update([
+        'plan_type' => $validated['plan_type'],
+        'billing_cycle' => $validated['billing_cycle'],
+        'title' => $validated['title'],
+        'price' => $validated['price'],
+        'features' => $validated['features'],
+        'homepage_show' => $request->homepage_show ? 1 : 0, //new field
+    ]);
 
-        $plan->update([
-            'plan_type' => $validated['plan_type'],
-            'billing_cycle' => $validated['billing_cycle'],
-            'title' => $validated['title'],
-            'price' => $validated['price'],
-            'features' => $validated['features'],
-        ]);
-
-        return back()->with('success', 'Pricing plan updated successfully!');
-    }
+    return back()->with('success', 'Pricing plan updated successfully!');
+}
     public function pricing_destroy($id)
     {
         $plan = pricing_plans::findOrFail($id);

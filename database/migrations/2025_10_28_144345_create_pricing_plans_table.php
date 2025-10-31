@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->json('features')->nullable();
             $table->boolean('status')->default(1);
+            $table->boolean('homepage_show')->default(0);
             $table->timestamps();
         });
     }
