@@ -1,116 +1,140 @@
-<!DOCTYPE html>
-<html>
+@extends('web-view.app')
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('content')
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg border-0 rounded-3">
+                    <div class="card-header bg-primary text-white text-center py-4 rounded-top-3">
+                        <h2 class="h4 mb-1 fw-bold">Complete Your Subscription</h2>
+                        <h3 class="h1 mb-0 fw-bolder">${{ number_format($planPrice, 2) }}</h3>
+                        <p class="mb-0 fs-5">{{ $planName ?? 'Selected Plan' }} / {{ ucfirst($billingType) ?? 'Monthly' }}
+                        </p>
+                    </div>
+                    <div class="card-body p-4">
 
-    <title>Laravel 11 Stripe Payment Gateway Integration Example </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <style type="text/css">
-        #card-element {
-            height: 50px;
-            padding-top: 16px;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="card mt-5">
-                    <h3 class="card-header p-3">Laravel 11 Stripe Payment Gateway Integration Example</h3>
-                    <div class="card-body">
-
+                        {{-- Alert Messages --}}
                         @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
-
                         @if (session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i> {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                             </div>
                         @endif
-                        {{-- 
-                    <form id='checkout-form' method='post' action="{{ route('charge') }}">
-                        @csrf
 
-                        <strong>Name:</strong>
-                        <input type="input" class="form-control" name="name" placeholder="Enter Name">
-                        <input type="hidden" name="amount" value="10">
+                        {{-- Order Summary --}}
+                        <div class="mb-4 p-3 bg-light rounded-3 border">
+                            <h5 class="fw-bold mb-3">Order Summary</h5>
+                            <ul class="list-unstyled mb-0 small">
+                                <li class="d-flex justify-content-between">
+                                    <span>Plan:</span>
+                                    <span class="fw-bold text-primary">{{ $planName ?? 'N/A' }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    <span>Billing:</span>
+                                    <span class="fw-bold text-primary">{{ ucfirst($billingType) ?? 'N/A' }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between mt-2 pt-2 border-top">
+                                    <span class="fw-bold">Total Due:</span>
+                                    <span class="fw-bolder fs-5 text-success">${{ number_format($planPrice, 2) }}</span>
+                                </li>
+                            </ul>
+                        </div>
 
-                        <input type='hidden' name='stripeToken' id='stripe-token-id'>
-                        <br>
-                        <div id="card-element" class="form-control" ></div>
-                        <button
-                            id='pay-btn'
-                            class="btn btn-success mt-3"
-                            type="button"
-                            style="margin-top: 20px; width: 100%;padding: 7px;"
-                            onclick="createToken()">PAY $10
-                        </button>
-                    </form> --}}
-
-                        <form id='checkout-form' method='post' action="{{ route('charge') }}">
+                        {{-- Payment Form --}}
+                        <form id="checkout-form" method="post" action="{{ route('charge') }}">
                             @csrf
-                            <input type="text" name="plan_id" value="{{ $planId }}">
-                            <input type="text" name="plan_name" value="{{ $planName }}">
-                            <input type="text" name="billing_type" value="{{ $billingType }}">
-                            <input type="text" name="amount" value="{{ $planPrice }}">
+                            <input type="hidden" name="plan_id" value="{{ $planId }}">
+                            <input type="hidden" name="plan_name" value="{{ $planName }}">
+                            <input type="hidden" name="billing_type" value="{{ $billingType }}">
+                            <input type="hidden" name="amount" value="{{ $planPrice }}">
 
-                            <strong>Name:</strong>
-                            <input type="text" class="form-control" name="name" value="{{ Auth::user()->name }}"
-                                readonly>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Name</label>
+                                <input type="text" class="form-control" name="name" value="{{ Auth::user()->name }}"
+                                    readonly>
+                            </div>
 
-                            <div id="card-element" class="form-control mt-3"></div>
-                            <input type='hidden' name='stripeToken' id='stripe-token-id'>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Card Details</label>
+                                <div id="card-element" class="form-control py-3"></div>
+                            </div>
 
-                            <button id='pay-btn' class="btn btn-success mt-3 w-100" type="button"
+                            <input type="hidden" name="stripeToken" id="stripe-token-id">
+
+                            <button id="pay-btn" type="button" class="btn btn-primary w-100 py-2 mt-3"
                                 onclick="createToken()">
                                 Subscribe for ${{ $planPrice }} / {{ ucfirst($billingType) }}
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-</body>
-
-<script src="https://js.stripe.com/v3/"></script>
-<script type="text/javascript">
-    var stripe = Stripe('{{ env('STRIPE_KEY') }}')
-    var elements = stripe.elements();
-    var cardElement = elements.create('card');
-    cardElement.mount('#card-element');
-
-    /*------------------------------------------
-    --------------------------------------------
-    Create Token Code
-    --------------------------------------------
-    --------------------------------------------*/
-    function createToken() {
-        document.getElementById("pay-btn").disabled = true;
-        stripe.createToken(cardElement).then(function(result) {
-
-            if (typeof result.error != 'undefined') {
-                document.getElementById("pay-btn").disabled = false;
-                alert(result.error.message);
-            }
-
-            /* creating token success */
-            if (typeof result.token != 'undefined') {
-                document.getElementById("stripe-token-id").value = result.token.id;
-                document.getElementById('checkout-form').submit();
+    {{-- Stripe JS --}}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    },
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif'
+                },
+                invalid: {
+                    color: '#fa755a'
+                }
             }
         });
-    }
-</script>
+        cardElement.mount('#card-element');
 
-</html>
+        function createToken() {
+            document.getElementById("pay-btn").disabled = true;
+
+            stripe.createToken(cardElement).then(function(result) {
+                if (result.error) {
+                    document.getElementById("pay-btn").disabled = false;
+                    alert(result.error.message);
+                } else {
+                    document.getElementById("stripe-token-id").value = result.token.id;
+                    document.getElementById('checkout-form').submit();
+                }
+            });
+        }
+    </script>
+
+    <style>
+        /* Stripe element container styling */
+        .stripe-element-container {
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            background-color: #fff;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+            padding: 0;
+            /* REMOVE padding inside */
+            min-height: 45px;
+            /* Stripe needs enough height to be clickable */
+        }
+
+        /* Remove the problematic fixed height */
+        #card-element {
+            height: 100%;
+            /* fill the container */
+        }
+    </style>
+@endsection

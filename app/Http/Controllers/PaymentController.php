@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Facades\Mail; 
 use App\Mail\InvoiceMail;
-
+use Stripe\Invoice as StripeInvoice;
 class PaymentController extends Controller
 {
     public function checkout(Request $request)
@@ -115,12 +115,18 @@ class PaymentController extends Controller
     'source' => $request->stripeToken,
     ]);
 
-    // 2️⃣ Create Product & Price
-    $product = \Stripe\Product::create([
-    'name' => $request->plan_name,
-    ]);
+    // 2️⃣ Create Product & Price in Stripe
+    $product = \Stripe\Product::create(['name' => $request->plan_name]);
 
-    $interval = strtolower($request->billing_type) === 'yearly' ? 'year' : 'month';
+    // Normalize billing type and interval
+    $billingInput = strtolower($request->billing_type);
+    if ($billingInput === 'annually') {
+    $billingType = 'yearly';
+    $interval = 'year';
+    } else {
+    $billingType = 'monthly';
+    $interval = 'month';
+    }
 
     $price = \Stripe\Price::create([
     'unit_amount' => $request->amount * 100,
@@ -129,50 +135,33 @@ class PaymentController extends Controller
     'product' => $product->id,
     ]);
 
-    // 3️⃣ Create Subscription
+    // 3️⃣ Create Stripe Subscription
     $subscription = StripeSubscription::create([
     'customer' => $customer->id,
     'items' => [['price' => $price->id]],
     'expand' => ['latest_invoice.payment_intent'],
-    'description' => "Package: {$request->plan_name}, Billing Type: {$request->billing_type}",
+    'description' => "Package: {$request->plan_name}, Billing Type: {$billingType}",
     ]);
 
     // 4️⃣ Retrieve Payment Intent & Invoice
-    $paymentIntentId = null;
-    $stripeInvoiceId = null;
-    $amountPaid = $request->amount;
-
-    if (!empty($subscription->latest_invoice)) {
     $invoice = $subscription->latest_invoice;
-
     if (is_string($invoice)) {
     $invoice = StripeInvoice::retrieve($invoice);
     }
 
-    $stripeInvoiceId = $invoice->id;
-
-    if (!empty($invoice->payment_intent)) {
-    $paymentIntent = is_string($invoice->payment_intent)
-    ? PaymentIntent::retrieve($invoice->payment_intent)
-    : $invoice->payment_intent;
-
-    $paymentIntentId = $paymentIntent->id;
-    }
-
-    $amountPaid = $invoice->amount_paid / 100; // Stripe returns cents
-    }
+    $stripeInvoiceId = $invoice->id ?? null;
+    $paymentIntentId = $invoice->payment_intent->id ?? null;
+    $amountPaid = $invoice->amount_paid ? $invoice->amount_paid / 100 : $request->amount;
 
     // 5️⃣ Calculate validity & next payment date
-    $validity = $interval === 'year'
-    ? now()->addYear()
-    : now()->addMonth();
+    $validity = $interval === 'year' ? now()->addYear() : now()->addMonth();
 
     // 6️⃣ Save subscription in local DB
     $subscriptionModel = Subscription::create([
     'user_id' => $user->id,
     'plan_id' => $request->plan_id,
     'plan_name' => $request->plan_name,
-    'billing_type' => ucfirst($request->billing_type),
+    'billing_type' => $billingType,
     'price' => $request->amount,
     'is_active' => 'yes',
     'validity_till' => $validity,
@@ -182,7 +171,7 @@ class PaymentController extends Controller
     'stripe_payment_id' => $paymentIntentId,
     ]);
 
-    // 7️⃣ Save invoice in DB
+    // 7️⃣ Save invoice in DB if exists
     if ($stripeInvoiceId) {
     $invoiceModelId = \DB::table('invoices')->insertGetId([
     'user_id' => $user->id,
@@ -196,8 +185,8 @@ class PaymentController extends Controller
     'updated_at' => now(),
     ]);
 
-    // 8️⃣ Send invoice email
-    $invoiceObj = (object) \DB::table('invoices')->where('id', $invoiceModelId)->first();
+    // Send invoice email
+    $invoiceObj = \DB::table('invoices')->where('id', $invoiceModelId)->first();
     Mail::to($user->email)->send(new InvoiceMail($invoiceObj, $subscriptionModel));
     }
 
@@ -208,4 +197,5 @@ class PaymentController extends Controller
     return back()->with('error', $e->getMessage());
     }
     }
+
 }
