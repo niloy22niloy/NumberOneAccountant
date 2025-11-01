@@ -16,13 +16,53 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
 
     public function index()
     {
+         $totalUsers = User::count();
+    $totalSuccessfullTransactionAmount = Subscription::where('payment_status','success')->sum('price');
+    $totalFailedTransactionAmount = Subscription::where('payment_status','!=', 'success')->sum('price');
+    $totalSubscribers = Subscription::where('payment_status','success')->count();
+    $totalActivePackages = pricing_plans::where('status', 1)->count();
+    $totalInactivePackages = pricing_plans::where('status', 0)->count();
 
+    // Last 7 days income (successful subscriptions)
+    $incomeLast7Days = Subscription::select(
+        DB::raw('DATE(created_at) as date'),
+        DB::raw('SUM(price) as total')
+    )
+    ->where('payment_status', 'success')
+    ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+    ->groupBy('date')
+    ->orderBy('date')
+    ->get();
+
+    $chartDates = [];
+    $chartIncome = [];
+    for ($i = 6; $i >= 0; $i--) {
+        $day = Carbon::now()->subDays($i)->format('Y-m-d');
+        $chartDates[] = $day;
+        $dayIncome = $incomeLast7Days->firstWhere('date', $day);
+        $chartIncome[] = $dayIncome ? $dayIncome->total : 0;
+    }
+
+    return view('admin.index', compact(
+        'totalUsers',
+        'totalSuccessfullTransactionAmount',
+        'totalFailedTransactionAmount',
+        'totalSubscribers',
+        'totalActivePackages',
+        'totalInactivePackages',
+        'chartDates',
+        'chartIncome'
+    ));
+    }
+    public function first_section(){
         $hero = HeroSection::first();
         return view('admin.home', compact('hero'));
     }

@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 
@@ -37,10 +37,10 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</x-guest-layout> --}}
 
 
-{{-- @extends('web-view.app')
+@extends('web-view.app')
 
 @section('content')
     <div class="auth-page">
@@ -250,4 +250,4 @@
             border: 1px solid #b6effb;
         }
     </style>
-@endsection --}}
+@endsection

@@ -47,10 +47,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function sendPasswordResetNotification($token)
-    {
-    $this->notify(new CustomResetPassword($token));
-    }
+    // public function sendPasswordResetNotification($token)
+    // {
+    // $this->notify(new CustomResetPassword($token));
+    // }
      public function subscriptions()
      {
      return $this->hasMany(Subscription::class);

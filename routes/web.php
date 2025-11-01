@@ -81,6 +81,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin', 'check_expired_subs')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/first_section', [\App\Http\Controllers\Admin\DashboardController::class, 'first_section'])->name('first_section');
+
         Route::post('/logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
         Route::post('/hero', [DashboardController::class, 'update'])->name('hero.update');
         Route::get('/about', [DashboardController::class, 'about'])->name('about');

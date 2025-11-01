@@ -4,10 +4,16 @@
              <span class="align-middle">NumberOne Accountent</span>
          </a>
          <ul class="sidebar-nav">
-             <li class="sidebar-header">Home</li>
-
+             {{-- <li class="sidebar-header">Home</li> --}}
              <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                  <a class="sidebar-link" href="{{ route('admin.dashboard') }}">
+                     <i class="align-middle" data-feather="sliders"></i>
+                     <span class="align-middle">Dashboard</span>
+                 </a>
+             </li>
+
+             <li class="sidebar-item {{ request()->routeIs('admin.first_section') ? 'active' : '' }}">
+                 <a class="sidebar-link" href="{{ route('admin.first_section') }}">
                      <i class="align-middle" data-feather="sliders"></i>
                      <span class="align-middle">First Section</span>
                  </a>
