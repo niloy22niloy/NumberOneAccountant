@@ -33,4 +33,13 @@ class Subscription extends Model
     {
     return $this->belongsTo(User::class);
     }
+    public function files()
+    {
+    return $this->hasMany(Files::class);
+    }
+
+    public function isExpired()
+    {
+    return $this->validity_till < now()->format('Y-m-d') || $this->is_active == 'no';
+        }
 }

@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
+    
     public function index()
     {
 

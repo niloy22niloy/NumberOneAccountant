@@ -158,7 +158,10 @@
                                                     {{ \Carbon\Carbon::parse($plan->validity_till)->format('Y-m-d') }}
                                                 </small>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-success">Manage</button>
+                                            <a href="{{ route('subscriptions.show', $plan->id) }}"
+                                                class="btn btn-sm btn-outline-success">
+                                                Manage
+                                            </a>
                                         </div>
                                     @empty
                                         <div class="list-group-item text-center">

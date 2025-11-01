@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WebViewController;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/invoices/{invoice}', [App\Http\Controllers\InvoiceController::class, 'show'])->name('invoices.show');
+     Route::get('/subscriptions/{id}', [SubscriptionController::class, 'show'])->name('subscriptions.show');
+     Route::post('/subscriptions/{id}/files/send', [SubscriptionController::class, 'sendToAdmin'])->name('files.send');
+     Route::get('/files/download/{id}', [SubscriptionController::class, 'download'])->name('files.download');
+
 });
 
 
