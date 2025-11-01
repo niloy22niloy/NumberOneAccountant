@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\WebsiteSettingsController;
 use App\Http\Controllers\WebViewController;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Route;
@@ -60,9 +61,9 @@ Route::get('/test', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified','check_expired_subs'])->name('dashboard');
+})->middleware(['auth', 'verified', 'check_expired_subs'])->name('dashboard');
 
-Route::middleware('auth','check_expired_subs')->group(function () {
+Route::middleware('auth', 'check_expired_subs')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -184,6 +185,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/admin/transactions', [App\Http\Controllers\Admin\DashboardController::class, 'transaction_list'])
             ->name('transactions.index');
+             Route::get('/website-settings', [WebsiteSettingsController::class, 'edit'])->name('website-settings.edit');
+    Route::post('/website-settings', [WebsiteSettingsController::class, 'update'])->name('website-settings.update');
     });
 });
 

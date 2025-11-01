@@ -66,6 +66,12 @@
                      <span class="align-middle">Total Transaction List</span>
                  </a>
              </li>
+             <li class="sidebar-item {{ request()->routeIs('admin.website-settings.edit') ? 'active' : '' }}">
+                 <a class="sidebar-link" href="{{ route('admin.website-settings.edit') }}">
+                     <i class="align-middle" data-feather="credit-card"></i>
+                     <span class="align-middle">Website Settings</span>
+                 </a>
+             </li>
          </ul>
          {{-- <ul class="sidebar-nav">
              <li class="sidebar-header">

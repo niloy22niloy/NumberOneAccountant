@@ -21,17 +21,16 @@
                             "Please Add A Title"
                         @endif
                     </h1>
+                    {{-- {{$hero}} --}}
 
                     <p class="lead text-muted mb-4">
                         {{ isset($hero->description) ? $hero->description : 'Please Add Some Description' }}
                     </p>
 
                     <div class="d-flex justify-content-center justify-content-lg-start">
-                        <button class="btn btn-custom-primary  me-3 sign_up_free_button">Sign up
-                            free</button>
-                        <a href="#" class="btn btn-outline-secondary text-muted learn_more"
-                            aria-label="Learn More">Learn
-                            more</a>
+                        <a href="{{$hero->button1_link ?? ""}}" class="btn btn-custom-primary  me-3 sign_up_free_button">{{$hero->button1_text ?? ''}}</a>
+                        <a href="{{$hero->button2_link ?? "#"}}" class="btn btn-outline-secondary text-muted learn_more"
+                            aria-label="Learn More">{{$hero->button2_text ?? " "}}</a>
                     </div>
                 </div>
 
