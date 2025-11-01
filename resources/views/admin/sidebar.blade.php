@@ -53,9 +53,10 @@
                      <span class="align-middle">Users</span>
                  </a>
              </li>
-             <li class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+
+             <li class="sidebar-item {{ request()->routeIs('admin.transactions.*') ? 'active' : '' }}">
                  <a class="sidebar-link" href="{{ route('admin.transactions.index') }}">
-                     <i class="align-middle" data-feather="users"></i>
+                     <i class="align-middle" data-feather="credit-card"></i>
                      <span class="align-middle">Total Transaction List</span>
                  </a>
              </li>

@@ -191,8 +191,9 @@ class PaymentController extends Controller
             ]);
 
             // 8️⃣ Save Invoice in DB
+            $invoiceModelId = null;
             if ($invoice->id) {
-                \DB::table('invoices')->insert([
+                $invoiceModelId = \DB::table('invoices')->insertGetId([
                     'user_id' => $user->id,
                     'subscription_id' => $subscriptionModel->id,
                     'stripe_customer_id' => $customer->id,
@@ -205,17 +206,25 @@ class PaymentController extends Controller
                 ]);
             }
 
-            // 9️⃣ Handle 3D Secure / requires_action
-            if ($paymentStatus === 'requires_action') {
-                return redirect()->route('dashboard')->with('info', 'Payment requires authentication (3D Secure). Please complete it
-   from Stripe.');
+            // 9️⃣ Send invoice email if payment succeeded
+            if ($isPaid && $invoiceModelId) {
+                $invoiceObj = \DB::table('invoices')->where('id', $invoiceModelId)->first();
+                Mail::to($user->email)->send(new InvoiceMail($invoiceObj, $subscriptionModel));
             }
 
-            // 10️⃣ Redirect with proper message
+            // 10️⃣ Handle 3D Secure / requires_action
+            if ($paymentStatus === 'requires_action') {
+                return redirect()->route('dashboard')
+                    ->with('info', 'Payment requires authentication (3D Secure). Please complete it from Stripe.');
+            }
+
+            // 11️⃣ Redirect with proper message
             if ($isPaid) {
-                return redirect()->route('dashboard')->with('success', 'Subscription activated successfully!');
+                return redirect()->route('dashboard')
+                    ->with('success', 'Subscription activated and invoice sent successfully!');
             } else {
-                return redirect()->route('dashboard')->with('error', 'Payment failed or pending. Please check your payment method.');
+                return redirect()->route('dashboard')
+                    ->with('error', 'Payment failed or pending. Please check your payment method.');
             }
         } catch (\Exception $e) {
             return back()->with('error', 'Stripe error: ' . $e->getMessage());
