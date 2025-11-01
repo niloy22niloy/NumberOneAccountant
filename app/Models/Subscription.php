@@ -21,7 +21,8 @@ class Subscription extends Model
     'is_active',
     'validity_till',
     'next_payment_date',
-    'stripe_payment_id'
+    'stripe_payment_id',
+     'payment_status',
     ];
 
     protected $casts = [

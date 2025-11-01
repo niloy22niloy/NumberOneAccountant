@@ -564,4 +564,11 @@ class DashboardController extends Controller
 
     return redirect()->back()->with('success', 'File sent to user successfully!');
     }
+    public function transaction_list()
+    {
+          // get all transactions with user info
+          $transactions = Subscription::with('user')->latest()->get();
+
+          return view('admin.subscriptions.list', compact('transactions'));
+    }
 }

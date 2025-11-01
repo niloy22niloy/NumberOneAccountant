@@ -118,6 +118,90 @@
         }
     </script>
 
+    {{-- Stripe JS --}}
+    {{-- <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    },
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif'
+                },
+                invalid: {
+                    color: '#fa755a'
+                }
+            }
+        });
+        cardElement.mount('#card-element');
+
+        const form = document.getElementById('checkout-form');
+        const payBtn = document.getElementById('pay-btn');
+
+        payBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            payBtn.disabled = true;
+
+            // 1️⃣ Create Stripe Token
+            const {
+                token,
+                error
+            } = await stripe.createToken(cardElement);
+            if (error) {
+                alert(error.message);
+                payBtn.disabled = false;
+                return;
+            }
+
+            // 2️⃣ Submit token to backend
+            const formData = new FormData(form);
+            formData.append('stripeToken', token.id);
+
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                })
+                .then(response => response.json())
+                .then(async data => {
+                    if (data.client_secret) {
+                        // 3️⃣ Handle 3D Secure / SCA
+                        const {
+                            paymentIntent,
+                            error: confirmError
+                        } = await stripe.confirmCardPayment(data.client_secret);
+                        if (confirmError) {
+                            alert('Payment failed: ' + confirmError.message);
+                            payBtn.disabled = false;
+                            return;
+                        }
+
+                        if (paymentIntent.status === 'succeeded') {
+                            window.location.href = '{{ route('dashboard') }}?success=1';
+                        }
+                    } else if (data.success) {
+                        window.location.href = '{{ route('dashboard') }}?success=1';
+                    } else if (data.error) {
+                        alert(data.error);
+                        payBtn.disabled = false;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Payment error. Please try again.');
+                    payBtn.disabled = false;
+                });
+        });
+    </script> --}}
+
+
     <style>
         /* Stripe element container styling */
         .stripe-element-container {
