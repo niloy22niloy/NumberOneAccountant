@@ -53,9 +53,15 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <div class="d-grid">
+                                {{-- <div class="d-grid">
                                     <button class="btn btn-custom-primary btn-lg">Choose Plan</button>
-                                </div>
+                                </div> --}}
+
+                                <button class="btn btn-custom-primary btn-lg choose-plan-btn"
+                                    data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
+                                    data-plan-price="{{ $plan->price }}">
+                                    Choose Plan
+                                </button>
                             </div>
                         </div>
                     @endforeach
@@ -84,9 +90,14 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <div class="d-grid">
+                                {{-- <div class="d-grid">
                                     <button class="btn btn-custom-primary btn-lg">Choose Plan</button>
-                                </div>
+                                </div> --}}
+                                <button class="btn btn-custom-primary btn-lg choose-plan-btn"
+                                    data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
+                                    data-plan-price="{{ $plan->price }}">
+                                    Choose Plan
+                                </button>
                             </div>
                         </div>
                     @endforeach
@@ -95,6 +106,29 @@
         </div>
         <!---Pricing Section End--->
         </div>
+
+        @push('script')
+        <script>
+       $(document).ready(function(){
+        alert('ok');
+       });
+        // $(document).on('click', '.choose-plan-btn', function() {
+        //     let isLoggedIn = @json(auth()->check());
+        //     if (!isLoggedIn) {
+        //         alert('Please login first!');
+        //         return;
+        //     }
+
+        //     let planId = $(this).data('plan-id');
+        //     let planName = $(this).data('plan-name');
+        //     let planPrice = $(this).data('plan-price');
+
+        //     // redirect to checkout with plan details
+        //     window.location.href = `/checkout?plan_id=${planId}&plan_name=${planName}&plan_price=${planPrice}`;
+        // });
+    </script>
+        @endpush
+
 
     </section>
     <style>
@@ -122,4 +156,7 @@
             transform: translateY(20px);
         }
     </style>
+
+
+
 @endsection

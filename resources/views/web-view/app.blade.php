@@ -143,11 +143,11 @@
                     @endauth
 
                     @guest
-                        <a href="{{ route('login') }}" class="btn sign_in_button me-2" aria-label="Sign In"
+                        <a wire:navigate href="{{ route('login') }}" class="btn sign_in_button me-2" aria-label="Sign In"
                             style=" border-color: rgb(51, 50, 50); color: #000000; border-radius: 0; transition: background-color 0.3s; font-size: 14px; padding: 6px 19px;">
                             Sign In
                         </a>
-                        <a href="{{ route('register') }}" class="btn fw-bold register_btn"
+                        <a wire:navigate href="{{ route('register') }}" class="btn fw-bold register_btn"
                             style="background-color: var(--primary-color); color: white;" aria-label="Try it Free">
                             Register
                         </a>
@@ -240,9 +240,14 @@
         </div>
     </footer>
 
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+
+
 
     <!---Scriptsss-->
     <script src="{{ asset('script.js') }}"></script>
+    @stack('script')
 
     <!-- Load Bootstrap 5 JS and Popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
