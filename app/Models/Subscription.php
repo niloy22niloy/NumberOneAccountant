@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Subscription extends Model
+{
+    //
+    use HasFactory;
+
+    protected $fillable = [
+    'user_id',
+    'plan_id',
+    'stripe_subscription_id',
+    'stripe_customer_id',
+    'plan_name',
+    'billing_type',
+    'price',
+    'is_active',
+    'validity_till',
+    'next_payment_date',
+    'stripe_payment_id'
+    ];
+
+    protected $casts = [
+    'validity_till' => 'date',
+    'next_payment_date' => 'date',
+    ];
+
+    public function user()
+    {
+    return $this->belongsTo(User::class);
+    }
+}
