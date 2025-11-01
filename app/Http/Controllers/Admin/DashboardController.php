@@ -10,6 +10,8 @@ use App\Models\LegalDocument;
 use App\Models\ModulePosts;
 use App\Models\pricing_plans;
 use App\Models\ResourceModule;
+use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -17,7 +19,7 @@ use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
-    
+
     public function index()
     {
 
@@ -464,28 +466,28 @@ class DashboardController extends Controller
         $plan = pricing_plans::findOrFail($id);
         return view('admin.pricing_edit', compact('plan'));
     }
-   public function pricing_update(Request $request, $id)
-{
-    $plan = pricing_plans::findOrFail($id);
-    $validated = $request->validate([
-        'plan_type' => 'required|string',
-        'billing_cycle' => 'required|string|in:Monthly,Annually',
-        'title' => 'required|string|unique:pricing_plans,title,' . $plan->id,
-        'price' => 'required|numeric',
-        'features' => 'required|array',
-    ]);
+    public function pricing_update(Request $request, $id)
+    {
+        $plan = pricing_plans::findOrFail($id);
+        $validated = $request->validate([
+            'plan_type' => 'required|string',
+            'billing_cycle' => 'required|string|in:Monthly,Annually',
+            'title' => 'required|string|unique:pricing_plans,title,' . $plan->id,
+            'price' => 'required|numeric',
+            'features' => 'required|array',
+        ]);
 
-    $plan->update([
-        'plan_type' => $validated['plan_type'],
-        'billing_cycle' => $validated['billing_cycle'],
-        'title' => $validated['title'],
-        'price' => $validated['price'],
-        'features' => $validated['features'],
-        'homepage_show' => $request->homepage_show ? 1 : 0, //new field
-    ]);
+        $plan->update([
+            'plan_type' => $validated['plan_type'],
+            'billing_cycle' => $validated['billing_cycle'],
+            'title' => $validated['title'],
+            'price' => $validated['price'],
+            'features' => $validated['features'],
+            'homepage_show' => $request->homepage_show ? 1 : 0, //new field
+        ]);
 
-    return back()->with('success', 'Pricing plan updated successfully!');
-}
+        return back()->with('success', 'Pricing plan updated successfully!');
+    }
     public function pricing_destroy($id)
     {
         $plan = pricing_plans::findOrFail($id);
@@ -501,5 +503,65 @@ class DashboardController extends Controller
         // $plan->save();
 
         return back()->with('success', 'Pricing plan activated successfully!');
+    }
+
+    public function user_index()
+    {
+        $users = User::with('subscriptions')->get(); // eager load subscriptions
+        return view('admin.users.index', compact('users'));
+    }
+
+    // Show single user details
+    public function user_show(User $user)
+    {
+        $subscriptions = $user->subscriptions()->get();
+        $invoices = $user->invoices()->get();
+        return view('admin.users.show', compact('user', 'subscriptions', 'invoices'));
+    }
+
+    // Show user's subscriptions only
+    public function user_subscriptions(User $user)
+    {
+        $subscriptions = $user->subscriptions()->get();
+        return view('admin.users.subscriptions', compact('user', 'subscriptions'));
+    }
+
+    // Show user's invoices only
+    public function user_invoices(User $user)
+    {
+        $invoices = $user->invoices()->get();
+        return view('admin.users.invoices', compact('user', 'invoices'));
+    }
+
+     public function show(Subscription $subscription)
+     {
+     // Load related user and files
+     $subscription->load('user', 'files'); // user relationship and files relationship
+
+     return view('admin.subscriptions.show', compact('subscription'));
+     }
+
+    public function uploadFile(Request $request, Subscription $subscription)
+    {
+    $request->validate([
+    'file' => 'required|file',
+    ]);
+
+    $file = $request->file('file');
+
+    // Store file in the 'public' disk
+    $path = $file->store('user-files', 'public');
+
+    // Save file record similar to user's sendToAdmin
+    \App\Models\Files::create([
+    'file_name' => $file->getClientOriginalName(),
+    'file_path' => $path,
+    'subscription_id'=> $subscription->id,
+    'user_id' => $subscription->user_id, // recipient user
+    'is_transferable'=> 'yes',
+    'transfer_type' => 'receive', // admin sending to user
+    ]);
+
+    return redirect()->back()->with('success', 'File sent to user successfully!');
     }
 }

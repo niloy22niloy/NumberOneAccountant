@@ -80,7 +80,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'login']);
 
-    Route::middleware('auth:admin')->group(function () {
+    Route::middleware('auth:admin','check_expired_subs')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
         Route::post('/hero', [DashboardController::class, 'update'])->name('hero.update');
@@ -134,6 +134,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
         Route::post('/pricing/activate/{id}', [DashboardController::class, 'pricing_activate'])->name('pricing.activate');
+
+
+
+         // User List
+         Route::get('/users', [App\Http\Controllers\Admin\DashboardController::class,
+         'user_index'])->name('users.index');
+
+         // View single user details
+         Route::get('/users/{user}', [App\Http\Controllers\Admin\DashboardController::class,
+         'user_show'])->name('users.show');
+
+         // Optional: View user's invoices
+         Route::get('/users/{user}/invoices', [App\Http\Controllers\Admin\DashboardController::class,
+         'user_invoices'])->name('users.invoices');
+
+         // Optional: View user's subscriptions
+         Route::get('/users/{user}/subscriptions', [App\Http\Controllers\Admin\DashboardController::class,
+         'user_subscriptions'])->name('users.subscriptions');
+
+         Route::get('/subscriptions/{subscription}', [App\Http\Controllers\Admin\DashboardController::class,'show'])->name('subscriptions.show');
+         Route::post('/subscriptions/{subscription}/upload-file',
+         [App\Http\Controllers\Admin\DashboardController::class, 'uploadFile'])->name('subscription.upload_file');
 
 
 

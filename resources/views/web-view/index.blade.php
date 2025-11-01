@@ -323,17 +323,17 @@
 
             <style>
                 /* .pricing-card-wrapper {
-                                    transition: all 0.4s ease;
-                                    opacity: 1;
-                                    transform: translateY(0);
-                                }
+                                                                                transition: all 0.4s ease;
+                                                                                opacity: 1;
+                                                                                transform: translateY(0);
+                                                                            }
 
-                                .pricing-card-wrapper.hide {
-                                    opacity: 0;
-                                    transform: translateY(20px);
-                                    pointer-events: none;
-                                    position: absolute;
-                                } */
+                                                                            .pricing-card-wrapper.hide {
+                                                                                opacity: 0;
+                                                                                transform: translateY(20px);
+                                                                                pointer-events: none;
+                                                                                position: absolute;
+                                                                            } */
             </style>
 
             <div class="row align-items-center mb-5">
@@ -356,83 +356,138 @@
 
                 <!-- Dynamic Cards -->
                 <div id="pricingCards" class="row d-flex flex-wrap justify-content-center align-items-stretch g-4 m-0 p-0">
+                    @php
+                        $user = auth()->user();
+                    @endphp
+
+                    {{-- Monthly Plans --}}
                     @foreach ($monthly_pricing as $plan)
+                        @php
+                            $userPlan = null;
+                            if ($user) {
+                                $userPlan = $user
+                                    ->subscriptions()
+                                    ->where('plan_id', $plan->id)
+                                    ->latest('validity_till')
+                                    ->first();
+                            }
+                            $hasActivePlan =
+                                $userPlan &&
+                                $userPlan->is_active === 'yes' &&
+                                $userPlan->validity_till >= now()->format('Y-m-d');
+                        @endphp
+
                         <div class="col-lg-4 col-md-6 mb-5 pricing-card-wrapper" data-cycle="monthly">
-                            <div class="pricing-card p-4  card-slide show">
+                            <div class="pricing-card p-4 card-slide show shadow-sm rounded border">
                                 <div class="pricing-card-header mb-4 text-center">
                                     <h3 class="h4 mb-0 fw-bold">{{ $plan->plan_type }}</h3>
                                 </div>
+
                                 <div class="text-center mb-4">
                                     <span class="price-currency h5 fw-normal">$</span>
                                     <span class="price-display">{{ $plan->price }}</span>
                                     <span class="price-term h5 fw-light">/month</span>
                                 </div>
+
                                 <p class="text-center text-dark fw-bold mb-4 fs-7">{{ $plan->title }}</p>
+
                                 <ul class="list-unstyled mb-5">
                                     @foreach ($plan->features as $feature)
                                         <li class="mb-3 d-flex align-items-center">
-                                            {{-- <svg class="me-2 text-highlight" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
-                                </svg> --}}
                                             <span>{{ $feature }}</span>
                                         </li>
                                     @endforeach
                                 </ul>
-                                {{-- <div class="d-grid">
-                        <button class="btn btn-custom-primary btn-lg">Choose Plan</button>
-                    </div> --}}
-                                {{-- <button class="btn btn-custom-primary btn-lg choose-plan-btn"
-                                    data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
-                                    data-plan-price="{{ $plan->price }}">
-                                    Choose Plan
-                                </button> --}}
 
-                                <button class="btn btn-custom-primary btn-lg choose-plan-btn"
-                                    data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
-                                    data-plan-price="{{ $plan->price }}" data-billing-type="{{ $plan->billing_cycle }}">
-                                    Choose Plan
-                                </button>
+                                @if ($user)
+                                    @if ($hasActivePlan)
+                                        <div class="text-center">
+                                            <button class="btn btn-secondary btn-lg w-100" disabled>
+                                                Already Bought | Expires:
+                                                {{ \Carbon\Carbon::parse($userPlan->validity_till)->format('Y-m-d') }}
+                                            </button>
+                                        </div>
+                                    @else
+                                        <button class="btn btn-custom-primary w-100 btn-lg choose-plan-btn"
+                                            data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
+                                            data-plan-price="{{ $plan->price }}"
+                                            data-billing-type="{{ $plan->billing_cycle }}">
+                                            Choose Plan
+                                        </button>
+                                    @endif
+                                @else
+                                    {{-- Guest: always show choose plan --}}
+                                    <button class="btn btn-custom-primary w-100 btn-lg choose-plan-btn"
+                                        data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
+                                        data-plan-price="{{ $plan->price }}"
+                                        data-billing-type="{{ $plan->billing_cycle }}">
+                                        Choose Plan
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     @endforeach
 
                     @foreach ($annually_pricing as $plan)
+                        @php
+                            $userPlan = null;
+                            if ($user) {
+                                $userPlan = $user
+                                    ->subscriptions()
+                                    ->where('plan_id', $plan->id)
+                                    ->latest('validity_till')
+                                    ->first();
+                            }
+                            $hasActivePlan =
+                                $userPlan &&
+                                $userPlan->is_active === 'yes' &&
+                                $userPlan->validity_till >= now()->format('Y-m-d');
+                        @endphp
+
                         <div class="col-lg-4 col-md-6 mb-5 pricing-card-wrapper hide" data-cycle="annual">
-                            <div class="pricing-card p-4  card-slide show">
+                            <div class="pricing-card p-4 card-slide show shadow-sm rounded border">
                                 <div class="pricing-card-header mb-4 text-center">
                                     <h3 class="h4 mb-0 fw-bold">{{ $plan->plan_type }}</h3>
                                 </div>
+
                                 <div class="text-center mb-4">
                                     <span class="price-currency h5 fw-normal">$</span>
                                     <span class="price-display">{{ $plan->price }}</span>
                                     <span class="price-term h5 fw-light">/year</span>
                                 </div>
+
                                 <p class="text-center text-dark fw-bold mb-4 fs-7">{{ $plan->title }}</p>
+
                                 <ul class="list-unstyled mb-5">
                                     @foreach ($plan->features as $feature)
                                         <li class="mb-3 d-flex align-items-center">
-                                            {{-- <svg class="me-2 text-highlight" width="16" height="16" fill="currentColor"
-                                    viewBox="0 0 16 16">
-                                    <path
-                                        d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
-                                </svg> --}}
                                             <span>{{ $feature }}</span>
                                         </li>
                                     @endforeach
                                 </ul>
-                                {{-- <button class="btn btn-custom-primary btn-lg choose-plan-btn"
-                                    data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
-                                    data-plan-price="{{ $plan->price }}">
-                                    Choose Plan
-                                </button> --}}
 
-                                <button class="btn btn-custom-primary btn-lg choose-plan-btn"
-                                    data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
-                                    data-plan-price="{{ $plan->price }}" data-billing-type="{{ $plan->billing_cycle }}">
-                                    Choose Plan
-                                </button>
+                                @if ($user)
+                                    @if ($hasActivePlan)
+                                        <button class="btn btn-secondary btn-lg w-100" disabled>
+                                            Already Bought | Expires:
+                                            {{ \Carbon\Carbon::parse($userPlan->validity_till)->format('Y-m-d') }}
+                                        </button>
+                                    @else
+                                        <button class="btn btn-custom-primary w-100 btn-lg choose-plan-btn"
+                                            data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
+                                            data-plan-price="{{ $plan->price }}"
+                                            data-billing-type="{{ $plan->billing_cycle }}">
+                                            Choose Plan
+                                        </button>
+                                    @endif
+                                @else
+                                    <button class="btn btn-custom-primary w-100 btn-lg choose-plan-btn"
+                                        data-plan-id="{{ $plan->id }}" data-plan-name="{{ $plan->plan_type }}"
+                                        data-plan-price="{{ $plan->price }}"
+                                        data-billing-type="{{ $plan->billing_cycle }}">
+                                        Choose Plan
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     @endforeach
@@ -440,32 +495,6 @@
             </div>
 
 
-
-            <style>
-                /* smooth fade transition */
-                .pricing-card-wrapper {
-                    opacity: 1;
-                    transform: translateY(0);
-                    transition: opacity 0.3s ease, transform 0.3s ease;
-                }
-
-                /* starting hidden state for annual plans */
-                .hide {
-                    display: none;
-                    opacity: 0;
-                }
-
-                /* animation states */
-                .fade-in {
-                    opacity: 1 !important;
-                    transform: translateY(0);
-                }
-
-                .fade-out {
-                    opacity: 0 !important;
-                    transform: translateY(20px);
-                }
-            </style>
 
 
             <!---Pricing Section End--->
@@ -549,19 +578,7 @@
                 </div>
             </div>
 
-            <!-- <div class="row justify-content-center mb-5">
-                                                                                                    <div class="col-lg-8 col-md-10">
-                                                                                                        <div class="alert alert-light text-center py-2 px-3 mb-0" role="alert">
-                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                                                                                class="bi bi-shield-lock-fill text-primary-custom me-2" viewBox="0 0 16 16">
-                                                                                                                <path fill-rule="evenodd"
-                                                                                                                    d="M8 0c-.69 0-1.843.915-2.564 2.176l-.6.61L.742 8l4.094 4.887.892.203C6.721 13.992 8 16 8 16s1.279-2.008 2.327-2.91L11.564 13.38l.6-.61C13.843 12.085 15 10.93 15 8V4.5l-7-4.5zM9.545 10.36a.5.5 0 0 0-.877.301l-.254.912a.5.5 0 0 0 .964 0l.254-.912a.5.5 0 0 0-.106-.301z" />
-                                                                                                            </svg>
-                                                                                                            We do not store any credit card information in server, payments are processed by gateways
-                                                                                                            and site is secured by 128 bit SSL encryption.
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div> -->
+
 
         </div>
         @push('script')
@@ -586,4 +603,31 @@
             </script>
         @endpush
     </section>
+
+
+    <style>
+        /* smooth fade transition */
+        .pricing-card-wrapper {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* starting hidden state for annual plans */
+        .hide {
+            display: none;
+            opacity: 0;
+        }
+
+        /* animation states */
+        .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0);
+        }
+
+        .fade-out {
+            opacity: 0 !important;
+            transform: translateY(20px);
+        }
+    </style>
 @endsection
