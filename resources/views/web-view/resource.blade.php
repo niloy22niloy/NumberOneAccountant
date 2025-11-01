@@ -30,14 +30,14 @@
     </style>
 
     <!-- Main Content Section -->
-     @foreach ($resources as $resource)
-    <main class="flex-grow-1 container py-5">
-        <div class="text-center mb-5">
-            <h1 class="display-4 fw-bolder text-dark mb-3">{{ $resource->name }}</h1>
-            <p class="lead text-muted mx-auto" style="max-width: 48rem;">
-               {{ $resource->description }}
-            </p>
-        </div>
+    @foreach ($resources as $resource)
+        <main class="flex-grow-1 container py-5">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bolder text-dark mb-3">{{ $resource->name }}</h1>
+                <p class="lead text-muted mx-auto" style="max-width: 48rem;">
+                    {{ $resource->description }}
+                </p>
+            </div>
 
 
             <div class="mb-4">
@@ -62,7 +62,8 @@
                                         <span>{{ $post->created_at->format('M d, Y') }}</span>
                                     </div>
                                     <a href="{{ route('post.show', $post->id) }}"
-                                        class="d-inline-block mt-3 text-primary fw-bold text-decoration-none border-bottom border-primary"  wire:navigate>
+                                        class="d-inline-block mt-3 text-primary fw-bold text-decoration-none border-bottom border-primary"
+                                        wire:navigate>
                                         Read Full Article &rarr;
                                     </a>
                                 </div>
@@ -72,6 +73,6 @@
                 </div>
             </div>
 
-    </main>
-      @endforeach
+        </main>
+    @endforeach
 @endsection

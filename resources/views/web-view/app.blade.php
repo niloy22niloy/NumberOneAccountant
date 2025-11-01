@@ -110,7 +110,7 @@
                 </ul>
                 <div class="d-flex align-items-center">
 
-                    @auth
+                    {{-- @auth
                         <div class="dropdown">
                             <button class="btn dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false"
@@ -140,7 +140,40 @@
                                 </li>
                             </ul>
                         </div>
+                    @endauth --}}
+
+                    @auth
+
+                        <div class="dropdown d-lg-inline-block ms-3">
+                            <button class="btn btn-primary dropdown-toggle fw-bold btn-sm" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-1"></i> {{ Auth::user()->name }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                                <a href="{{ route('dashboard') }}" class="dropdown-item">
+                                    <i class="fas fa-tachometer-alt me-2 text-primary"></i> Dashboard
+                                </a>
+                                <li>
+
+                                    <a wire:navigate class="dropdown-item" href="{{ route('profile.edit') }}">
+                                        <i class="fas fa-user-circle me-2 text-primary"></i> Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Log Out
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                     @endauth
+
 
                     @guest
                         <a wire:navigate href="{{ route('login') }}" class="btn sign_in_button me-2" aria-label="Sign In"
@@ -240,7 +273,7 @@
         </div>
     </footer>
 
-     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
 
 
@@ -252,6 +285,8 @@
     <!-- Load Bootstrap 5 JS and Popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         xintegrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/A+0T5qD9t9f2T" crossorigin="anonymous"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         xintegrity="sha384-0pUGl5vj5sA2O3vA3yO8Yk4T5zT7z0z4Vl7e5a7V6l" crossorigin="anonymous"></script>
 

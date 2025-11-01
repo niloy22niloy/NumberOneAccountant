@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,12 +23,30 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     return redirect()->intended(route('dashboard', absolute: false));
+    // }
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Authenticate the user
         $request->authenticate();
 
+        //  Update expired subscriptions for this user
+        $user = Auth::user();
+        Subscription::where('user_id', $user->id)
+            ->where('is_active', 'yes')
+            ->where('validity_till', '<', now()->format('Y-m-d'))
+            ->update(['is_active' => 'no']);
+
+        // Regenerate session
         $request->session()->regenerate();
 
+        // Redirect to dashboard
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
